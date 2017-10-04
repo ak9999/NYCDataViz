@@ -86,3 +86,10 @@ venv.bak/
 
 # IDE files
 .idea/
+
+# config.py
+config.py
+
+# .DS_Store
+.DS_Store
+
