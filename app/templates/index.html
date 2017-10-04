@@ -1,11 +1,56 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular.min.js"></script>
-    <title>Hello world!</title>
-  </head>
-  <body>
-    Hello world!
-  </body>
+<head>
+<title>Interactive Service Request Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-easybutton@2.0.0/src/easy-button.css">
+    <script src="https://unpkg.com/leaflet-easybutton@2.0.0/src/easy-button.js"></script>
+    <link rel="stylesheet" href="../static/css/leaflet-search.css" />
+    <script src="../static/js/leaflet-search.js"></script>
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+        html, body, #map { width: 100vw; height: 100vh; }
+        .leaflet-heatmap-layer { opacity: .60; }
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <script src="../static/js/leaflet-heat.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.js"></script>
+</head>
+<body>
+    <div id="map"></div>
+    <script>
+        var map = L.map('map').setView([40.768890, -73.964789], 16);
+
+        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(map);
+
+        function searchByAjax(text, callResponse) // callback for 3rd party ajax reqs
+        {
+            map.eachLayer(function (layer) {
+                map.removeLayer(layer);
+            });
+            L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(map);
+            return $.ajax({
+                url: 'query/'+text,
+                type: 'GET',
+                dataType: 'json',
+                success: function(json) {
+                    var searchquery = [];
+                    for (var i = 0; i < json.length; ++i) {
+                        searchquery.push([json[i].Latitude, json[i].Longitude, 10]);
+                    }
+                    map.addLayer(L.heatLayer(searchquery));
+                }
+            });
+        }
+
+
+        map.addControl( new L.Control.Search({sourceData: searchByAjax, markerLocation: false}));
+
+</script>
+</body>
+
 </html>
