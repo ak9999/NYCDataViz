@@ -2,12 +2,12 @@
 <html>
 <head>
 <title>Interactive Service Request Map</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-easybutton@2.0.0/src/easy-button.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
+    <!-- <link rel="stylesheet" href="https://unpkg.com/leaflet-easybutton@2.0.0/src/easy-button.css">
     <script src="https://unpkg.com/leaflet-easybutton@2.0.0/src/easy-button.js"></script>
     <link rel="stylesheet" href="../static/css/leaflet-search.css" />
-    <script src="../static/js/leaflet-search.js"></script>
+    <script src="../static/js/leaflet-search.js"></script> -->
     <style>
         body {
             padding: 0;
@@ -27,28 +27,30 @@
 
         L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(map);
 
-        function searchByAjax(text, callResponse) // callback for 3rd party ajax reqs
+        function searchByAjax(callResponse) // callback for 3rd party ajax reqs
         {
             map.eachLayer(function (layer) {
                 map.removeLayer(layer);
             });
             L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(map);
             return $.ajax({
-                url: 'query/'+text,
+                url: 'query/',
                 type: 'GET',
                 dataType: 'json',
                 success: function(json) {
                     var searchquery = [];
                     for (var i = 0; i < json.length; ++i) {
-                        searchquery.push([json[i].Latitude, json[i].Longitude, 10]);
+                        searchquery.push([json[i].latitude, json[i].longitude, 10]);
+                        console.log()
                     }
                     map.addLayer(L.heatLayer(searchquery));
                 }
             });
         }
 
+        searchByAjax();
 
-        map.addControl( new L.Control.Search({sourceData: searchByAjax, markerLocation: false}));
+        // map.addControl(new L.Control.Search({sourceData: searchByAjax, markerLocation: false}));
 
 </script>
 </body>
