@@ -1,3 +1,3 @@
 #!/usr/bin/env python3
 from app import app
-app.run(host=0.0.0.0, debug=True, port=33507)
+app.run(host='0.0.0.0', debug=True, port=33507)
