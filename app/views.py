@@ -31,9 +31,6 @@ def request():
     # Convert datetimes into Floating Timestamps for use with Socrata.
     today = today.strftime('%Y-%m-%d') + 'T00:00:00'
     six_weeks_ago = six_weeks_ago.strftime('%Y-%m-%d') + 'T00:00:00'
-    # Print out the values.
-    print(today)
-    print(six_weeks_ago)
 
     '''
     GET request on Socrata's API.
@@ -45,7 +42,7 @@ def request():
     r = requests.get(
         "https://data.cityofnewyork.us/resource/fhrw-4uyv.json?" +
         "$limit=500000&$select={}&".format(columns) +
-        "$where=created_date between \'{}\' and \'{}\'".format(six_weeks_ago, today)
+        "$where=created_date between \'{}\' and \'{}\' and longitude IS NOT NULL".format(six_weeks_ago, today)
     )
 
     # Create the response
