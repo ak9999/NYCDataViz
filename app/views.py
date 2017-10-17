@@ -16,7 +16,7 @@ def index():
     '''
     Returns a static webpage for now.
     '''
-    return render_template('index.html')
+    return render_template('boom.html')
 
 
 @app.route('/query/')
