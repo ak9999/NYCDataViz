@@ -16,7 +16,7 @@ def index():
     '''
     Returns a static webpage for now.
     '''
-    return render_template('boom.html')
+    return render_template('map.html')
 
 
 @app.route('/query/')
@@ -27,7 +27,7 @@ def request():
 
     # Get recent service requests (last 6 weeks)
     today = date.today()
-    six_weeks_ago = today - relativedelta(weeks=6)
+    six_weeks_ago = today - relativedelta(days=1)
     # Convert datetimes into Floating Timestamps for use with Socrata.
     today = today.strftime('%Y-%m-%d') + 'T00:00:00'
     six_weeks_ago = six_weeks_ago.strftime('%Y-%m-%d') + 'T00:00:00'
@@ -48,3 +48,9 @@ def request():
     # Create the response
     response = Response(response=r, status=200, mimetype='application/json')
     return response
+
+@app.route('/maps_api')
+def maps_api():
+    visualization = 'https://maps.googleapis.com/maps/api/js?key=' + app.config['API_KEY'] + '&libraries=visualization'
+    r = requests.get(visualization)
+    return Response(response=r, status=200, mimetype='text/javascript')

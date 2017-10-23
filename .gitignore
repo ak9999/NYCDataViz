@@ -86,3 +86,6 @@ venv.bak/
 
 # IDE files
 .idea/
+
+# config.py
+config.py
