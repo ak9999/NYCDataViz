@@ -6,10 +6,6 @@ body,
   padding: 0;
 }
 
-#map {
-  height: 100%;
-}
-
 #floating-panel {
   position: absolute;
   top: 10px;
@@ -50,5 +46,5 @@ body,
 }
 
 .pac-container {
-  font-family: Roboto;
+  font-family: 'Roboto';
 }
