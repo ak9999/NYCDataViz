@@ -17,21 +17,39 @@
 
         function initMap() {
             map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 18,
+                zoom: 13,
                 center: {
                     lat: 40.730815,
                     lng: -73.997471
                 },
-                mapTypeId: google.maps.MapTypeId.MAP,
-                disableDefaultUI: true
+            mapTypeId: google.maps.MapTypeId.MAP,
+            disableDefaultUI: true
             });
 
-            heatmap = new google.maps.visualization.HeatmapLayer({
-                data: getPoints(),
-                map: map
-            });
+            var request = new XMLHttpRequest();
+            request.open('GET', '/query', true);
 
-        }
+            request.onload = function() {
+              if (request.status >= 200 && request.status < 400) {
+                    // Success!
+                    var data = JSON.parse(request.responseText);
+                    let result = [];
+                    for (var i = 0; i < data.length; i++) {
+                        result.push(new google.maps.LatLng(data[i].latitude, data[i].longitude));
+                    }
+                    console.log(result);
+                    heatmap = new google.maps.visualization.HeatmapLayer({
+                        data: result,
+                        map: map
+                    });
+              } 
+            };
+            request.onerror = function() {
+            // There was a connection error of some sort
+            };  
+
+            request.send();
+        }   
 
         ready(initMap);
 
@@ -51,27 +69,6 @@
         heatmap.setMap(heatmap.getMap() ? null : map);
     }
 
-function getPoints(){
-    var request = new XMLHttpRequest();
-    request.open('GET', '/query', true);
-
-    request.onload = function() {
-      if (request.status >= 200 && request.status < 400) {
-        // Success!
-        return JSON.parse(request.responseText);
-
-      } else {
-        // We reached our target server, but it returned an error
-        return [];
-      }
-};
-}
-
-request.onerror = function() {
-  // There was a connection error of some sort
-};
-
-request.send();
 
 function changeGradient() {
     var gradient = [
