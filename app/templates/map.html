@@ -11,7 +11,9 @@
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/map.css') }}">
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto">
+    <script src="../static/js/map.js"></script>
     <script type="text/javascript" src="/maps_api"></script>
+
     <script type="text/javascript" src="{{ url_for('static', filename='js/map.js') }}"></script>
   </head>
   <body>
@@ -19,7 +21,7 @@
           <h1>
               Welcome to City Snapshot
           </h1>
-          <button onclick="toggleHeatmap()">Toggle Heatmap</button>
+          <button id ="Toggle" onclick = "toggleHeatmap();">Toggle Heatmap</button>
           <button onclick="changeGradient()">Change gradient</button>
           <button onclick="changeRadius()">Change radius</button>
           <button onclick="changeOpacity()">Change opacity</button>
@@ -27,5 +29,7 @@
 
       </div>
       <div id="map"></div>
+
+
   </body>
 </html>

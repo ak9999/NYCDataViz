@@ -2,48 +2,76 @@
 // parameter when you first load the API. For example:
 // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=visualization">
 
-var map, heatmap;
 
-function recv_data(data_url, callback) {
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.onreadystatechange = function() {
-        if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
-            callback(xmlHttp.responseText);
+
+        var map;
+        var heatmap;
+
+        function ready(fn){
+            if(document.attachEvent ? document.readyState === "complete" : document.readyState != "loading"){
+                fn();
+            }else{
+                document.addEventListener('DOMContentLoaded',fn);
+            }
         }
-    };
-    xmlHttp.open("GET", data_url, true); // asynchronous request
-    xmlHttp.send(null);
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 18,
+                center: {
+                    lat: 40.730815,
+                    lng: -73.997471
+                },
+                mapTypeId: google.maps.MapTypeId.MAP,
+                disableDefaultUI: true
+            });
+
+            heatmap = new google.maps.visualization.HeatmapLayer({
+                data: getPoints(),
+                map: map
+            });
+
+        }
+
+        ready(initMap);
+
+
+    function recv_data(data_url, callback) {
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.onreadystatechange = function() {
+            if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
+                callback(xmlHttp.responseText);
+            }
+        };
+        xmlHttp.open("GET", data_url, true); // asynchronous request
+        xmlHttp.send(null);
+    }
+
+    function toggleHeatmap() {
+        heatmap.setMap(heatmap.getMap() ? null : map);
+    }
+
+function getPoints(){
+    var request = new XMLHttpRequest();
+    request.open('GET', '/query', true);
+
+    request.onload = function() {
+      if (request.status >= 200 && request.status < 400) {
+        // Success!
+        return JSON.parse(request.responseText);
+
+      } else {
+        // We reached our target server, but it returned an error
+        return [];
+      }
+};
 }
 
-function getPoints(data) {
-    // var coordinates = [];
-    // for (var i = 0; i < data.length; ++i) {
-    //     coordinates.push(new google.maps.LatLng(data[i].latitude, data[i].longitude));
-    // }
-    // return coordinates;
-    return new google.maps.LatLng(40, -73);
-}
+request.onerror = function() {
+  // There was a connection error of some sort
+};
 
-function initMap() {
-    map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 18,
-        center: {
-            lat: 40.730815,
-            lng: -73.997471
-        },
-        mapTypeId: google.maps.MapTypeId.MAP,
-        disableDefaultUI: true
-    });
-
-    heatmap = new google.maps.visualization.HeatmapLayer({
-        data: recv_data('/query/', getPoints),
-        map: map
-    });
-}
-
-function toggleHeatmap() {
-    heatmap.setMap(heatmap.getMap() ? null : map);
-}
+request.send();
 
 function changeGradient() {
     var gradient = [
@@ -146,7 +174,3 @@ searchBox.addListener('places_changed', function() {
     map.fitBounds(bounds);
 });
 }
-google.maps.event.addDomListener(window, 'load', function() {
-    initMap();
-    initAutocomplete();
-});
