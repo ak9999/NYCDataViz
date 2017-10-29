@@ -17,6 +17,10 @@ def index():
     '''
     Returns a static webpage for now.
     '''
+    return render_template('index.html')
+
+@app.route('/map.html')
+def map():
     return render_template('map.html')
 
 
