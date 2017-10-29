@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/map.css') }}">
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto">
     <script type="text/javascript" src="/maps_api"></script>
+
     <script type="text/javascript" src="{{ url_for('static', filename='js/map.js') }}"></script>
   </head>
   <body>
@@ -19,7 +20,7 @@
           <h1>
               Welcome to City Snapshot
           </h1>
-          <button onclick="toggleHeatmap()">Toggle Heatmap</button>
+          <button id ="Toggle" onclick = "toggleHeatmap();">Toggle Heatmap</button>
           <button onclick="changeGradient()">Change gradient</button>
           <button onclick="changeRadius()">Change radius</button>
           <button onclick="changeOpacity()">Change opacity</button>
@@ -27,5 +28,9 @@
 
       </div>
       <div id="map"></div>
+
   </body>
+  <script type="text/javascript"
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9ElfPyeJ6ads4hslJ5eDQMrJaHx1tAp0&libraries=visualization">
+  </script>
 </html>
