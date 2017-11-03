@@ -8,6 +8,8 @@
     <!-- Viewport for responsive web design -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>City Snapshot</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/map.css') }}">
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto">
@@ -17,19 +19,22 @@
   <body>
       <div id="floating-panel">
           <h1>
-              Welcome to City Snapshot
+              Welcome To Data Viz
           </h1>
-          <button id ="Toggle" onclick = "toggleHeatmap();">Toggle Heatmap</button>
-          <button onclick="changeGradient()">Change gradient</button>
-          <button onclick="changeRadius()">Change radius</button>
-          <button onclick="changeOpacity()">Change opacity</button>
-          <input id="pac-input" class="controls" type="text" placeholder="Search Box">
 
+          <div class = "dropdown">
+          
+          </div>
       </div>
-      <div id="map"></div>
+      <div id="map">
+        
+      </div>
 
   </body>
   <script type="text/javascript"
   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9ElfPyeJ6ads4hslJ5eDQMrJaHx1tAp0&libraries=visualization">
-</script>
+  </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+
 </html>

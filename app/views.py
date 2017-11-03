@@ -35,6 +35,7 @@ def request():
     today = datetime.now()  # Generate datetime object right now.
     today = today.astimezone(eastern_tz)  # Convert today to new datetime
     time_delta = today - relativedelta(days=3)
+    
     # Convert datetimes into Floating Timestamps for use with Socrata.
     today = today.strftime('%Y-%m-%d') + 'T00:00:00'
     time_delta = time_delta.strftime('%Y-%m-%d') + 'T00:00:00'
