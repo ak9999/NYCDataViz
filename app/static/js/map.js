@@ -22,6 +22,7 @@ function initMap() {
             lat: 40.730815,
             lng: -73.997471
         },
+        // Make it Night View
         styles: [
             {elementType: 'geometry', stylers: [{color: '#242f3e'}]},
             {elementType: 'labels.text.stroke', stylers: [{color: '#242f3e'}]},
@@ -170,10 +171,12 @@ function changeGradient() {
     heatmap.set('gradient', heatmap.get('gradient') ? null : gradient);
 }
 
+/*Function Not Needed*/
 function changeRadius() {
     heatmap.set('radius', heatmap.get('radius') ? null : 20);
 }
 
+/* Function Not Needed */
 function changeOpacity() {
     heatmap.set('opacity', heatmap.get('opacity') ? null : 0.2);
 }
