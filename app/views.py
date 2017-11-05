@@ -46,12 +46,14 @@ def request_data():
     $select will select the columns we want, as defined earlier.
     $where allows us to choose the time frame. In this case it's 6 weeks.
     '''
-    url = "https://data.cityofnewyork.us/resource/fhrw-4uyv.json?"
-    url += "$limit=10000&$select={}&".format(columns)
-    url += "$where=created_date between \'{}\' and \'{}\' and longitude IS NOT NULL".format(time_delta, today)
+    url = (
+        "https://data.cityofnewyork.us/resource/fhrw-4uyv.json?"
+        "$limit=10000&$select={}&"
+        "$where=created_date between \'{}\' and \'{}\' and longitude IS NOT NULL"
+    ).format(columns, time_delta, today)  # Multi-line string
     agency = request.args.get('agency')
     complaint_type = request.args.get('type')
-    if agency:
+    if agency is not None:
         url += f'&agency={agency}'
     if complaint_type is not None:
         url += f'&complaint_type={complaint_type}'
