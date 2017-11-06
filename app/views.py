@@ -62,7 +62,7 @@ def request_data():
         # Update the filter with a full text search of the data set.
         filters.update({'$q': f'\'{complaint_type}\''})
 
-    r = requests.get(api, params=filters)
+    r = requests.get(api_url, params=filters)
 
     # Create the response
     response = Response(response=r, status=200, mimetype='application/json')
