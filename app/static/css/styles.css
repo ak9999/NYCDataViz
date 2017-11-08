@@ -1,12 +1,14 @@
 body{
 	background-color: black;
 }
+
 .parallax { 
     /* The image used */
-    background-image: url("img_parallax.jpg");
+    background-image: url("http://data.whicdn.com/images/22137606/original.jpg");
 
     /* Set a specific height */
-    height: 500px; 
+    height: 600px;
+   
 
     /* Create the parallax scrolling effect */
     background-attachment: fixed;
