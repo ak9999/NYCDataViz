@@ -15,6 +15,7 @@ function ready(fn){
     }
 }
 
+
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
         zoom: 13,
@@ -124,7 +125,6 @@ function initMap() {
                 map: map
             });
             changeGradient();
-
         }
     };
     request.onerror = function() {
@@ -148,10 +148,6 @@ function recv_data(data_url, callback) {
     xmlHttp.send(null);
 }
 
-function toggleHeatmap() {
-    heatmap.setMap(heatmap.getMap() ? null : map);
-}
-
 
 function changeGradient() {
     var gradient = [
@@ -173,15 +169,10 @@ function changeGradient() {
     heatmap.set('gradient', gradient);
 }
 
-/*Function Not Needed*/
-function changeRadius() {
-    heatmap.set('radius', heatmap.get('radius') ? null : 20);
+function changeFloat(){
+  document.getElementById('floating-panel')
 }
 
-/* Function Not Needed */
-function changeOpacity() {
-    heatmap.set('opacity', heatmap.get('opacity') ? null : 0.2);
-}
 
 // This example adds a search box to a map, using the Google Place Autocomplete
 // feature. People can enter geographical searches. The search box will return a

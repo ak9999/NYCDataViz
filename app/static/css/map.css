@@ -8,8 +8,6 @@ body,
 
 #floating-panel {
   position: absolute;
-  top: 10px;
-  left: 10px;
   z-index: 5; 
   background-color: #fff;
   padding: 5px;
@@ -17,8 +15,7 @@ body,
   text-align: center;
   font-family: 'Roboto', 'sans-serif';
   line-height: 30px;
-  padding-left: 10px;
-  min-height: 50%;
+  min-height: 100%;
   min-width: 35%;
 
 }
