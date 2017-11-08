@@ -32,7 +32,7 @@ h4{
 	color: white;
 }
 #link{
-color: orange;
+color: white;
 }
 
 .top{
@@ -41,11 +41,12 @@ color: orange;
 
 .textBox{
 	text-align: center;
-	margin-top: 300px;
+	margin-top: 200px;
 	padding-top: 200px;
 	padding-bottom:200px;
 	border-color: orange;
 	border-style: solid;
+	width: 100%;
 	border-width: 6px;
 }
 
