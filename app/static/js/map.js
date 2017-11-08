@@ -123,6 +123,8 @@ function initMap() {
                 data: result,
                 map: map
             });
+            changeGradient();
+
         }
     };
     request.onerror = function() {
@@ -168,7 +170,7 @@ function changeGradient() {
         'rgba(191, 0, 31, 1)',
         'rgba(255, 0, 0, 1)'
     ]
-    heatmap.set('gradient', heatmap.get('gradient') ? null : gradient);
+    heatmap.set('gradient', gradient);
 }
 
 /*Function Not Needed*/

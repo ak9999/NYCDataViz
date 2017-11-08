@@ -11,14 +11,14 @@ import requests
 import os
 
 @app.route('/')
-@app.route('/index.html')
+@app.route('/index')
 def index():
     '''
     Returns a static webpage for now.
     '''
     return render_template('index.html')
 
-@app.route('/map.html')
+@app.route('/map')
 def map():
     return render_template('map.html')
 
