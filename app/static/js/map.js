@@ -175,6 +175,7 @@ function changeGradient() {
 
 /*Function For query */
 
+
 function NYPDFunction(){
     heatmap.setMap(null);
     var request = new XMLHttpRequest();
@@ -262,6 +263,35 @@ function DOHMHFunction(){
 }
 
 function DEPFunction(){
+    heatmap.setMap(null);
+    var request = new XMLHttpRequest();
+    request.open('GET', '/query?&agency=DEP', true);
+
+    request.onload = function() {
+        if (request.status >= 200 && request.status < 400) {
+            // Success!
+            var data = JSON.parse(request.responseText);
+            let result = [];
+            for (var i = 0; i < data.length; i++) {
+                result.push(new google.maps.LatLng(data[i].latitude, data[i].longitude));
+            }
+            console.log(result);
+            heatmap = new google.maps.visualization.HeatmapLayer({
+                data: result,
+                map: map
+            });
+            changeGradient();
+        }
+    };
+    request.onerror = function() {
+        // There was a connection error of some sort
+
+    };
+
+    request.send();
+}
+
+function allData(){
     heatmap.setMap(null);
     var request = new XMLHttpRequest();
     request.open('GET', '/query?&agency=DEP', true);
