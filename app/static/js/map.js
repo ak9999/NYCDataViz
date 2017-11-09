@@ -122,7 +122,7 @@ function initMap() {
         var infowindowContent = document.getElementById('infowindow-content');
         infowindow.setContent(infowindowContent);
         // whats this??
-        
+
         var marker = new google.maps.Marker({
           map: map,
           anchorPoint: new google.maps.Point(0, -29)
@@ -148,6 +148,7 @@ function initMap() {
           }
           marker.setPosition(place.geometry.location);
           marker.setVisible(true);
+
 
           var address = '';
           if (place.address_components) {
