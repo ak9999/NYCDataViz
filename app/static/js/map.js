@@ -107,22 +107,9 @@ function initMap() {
         mapTypeId: google.maps.MapTypeId.MAP,
         disableDefaultUI: true
     });
-    var input = document.getElementById('pac-input');
 
-    var autocomplete = new google.maps.places.Autocomplete(input);
 
-    // Bing the map's bounds (view port ) property to the autocomplete object, 
-    // so that the autocomplete request use the current map bounds for the 
-    // bounds option in the requests.... Still don't really know what that means
 
-    autocomplete.bindTo('bounds',map);
-
-    autocomplete.addListener('place_changed', function(){
-      var place = autocomplete.getPlace();
-      map.fitBounds(place.geometry.viewpot);
-
-    });
-    
     var request = new XMLHttpRequest();
     request.open('GET', '/query', true);
 
@@ -185,4 +172,147 @@ function changeGradient() {
     heatmap.set('gradient', gradient);
 }
 
+
+/*Function For query */
+
+function NYPDFunction(){
+    heatmap.setMap(null);
+    var request = new XMLHttpRequest();
+    request.open('GET', '/query?&agency=NYPD', true);
+
+    request.onload = function() {
+        if (request.status >= 200 && request.status < 400) {
+            // Success!
+            var data = JSON.parse(request.responseText);
+            let result = [];
+            for (var i = 0; i < data.length; i++) {
+                result.push(new google.maps.LatLng(data[i].latitude, data[i].longitude));
+            }
+            console.log(result);
+            heatmap = new google.maps.visualization.HeatmapLayer({
+                data: result,
+                map: map
+            });
+            changeGradient();
+        }
+    };
+    request.onerror = function() {
+        // There was a connection error of some sort
+
+    };
+
+    request.send();
+}
+
+function FDNYFunction(){
+    heatmap.setMap(null);
+    var request = new XMLHttpRequest();
+    request.open('GET', '/query?&agency=FDNY', true);
+
+    request.onload = function() {
+        if (request.status >= 200 && request.status < 400) {
+            // Success!
+            var data = JSON.parse(request.responseText);
+            let result = [];
+            for (var i = 0; i < data.length; i++) {
+                result.push(new google.maps.LatLng(data[i].latitude, data[i].longitude));
+            }
+            console.log(result);
+            heatmap = new google.maps.visualization.HeatmapLayer({
+                data: result,
+                map: map
+            });
+            changeGradient();
+        }
+    };
+    request.onerror = function() {
+        // There was a connection error of some sort
+
+    };
+    request.send();
+}
+
+function DOHMHFunction(){
+    heatmap.setMap(null);
+    var request = new XMLHttpRequest();
+    request.open('GET', '/query?&agency=DOHMH', true);
+
+    request.onload = function() {
+        if (request.status >= 200 && request.status < 400) {
+            // Success!
+            var data = JSON.parse(request.responseText);
+            let result = [];
+            for (var i = 0; i < data.length; i++) {
+                result.push(new google.maps.LatLng(data[i].latitude, data[i].longitude));
+            }
+            console.log(result);
+            heatmap = new google.maps.visualization.HeatmapLayer({
+                data: result,
+                map: map
+            });
+            changeGradient();
+        }
+    };
+    request.onerror = function() {
+        // There was a connection error of some sort
+
+    };
+
+    request.send();
+}
+
+function DEPFunction(){
+    heatmap.setMap(null);
+    var request = new XMLHttpRequest();
+    request.open('GET', '/query?&agency=DEP', true);
+
+    request.onload = function() {
+        if (request.status >= 200 && request.status < 400) {
+            // Success!
+            var data = JSON.parse(request.responseText);
+            let result = [];
+            for (var i = 0; i < data.length; i++) {
+                result.push(new google.maps.LatLng(data[i].latitude, data[i].longitude));
+            }
+            console.log(result);
+            heatmap = new google.maps.visualization.HeatmapLayer({
+                data: result,
+                map: map
+            });
+            changeGradient();
+        }
+    };
+    request.onerror = function() {
+        // There was a connection error of some sort
+
+    };
+
+    request.send();
+}
+
+function myFunction (){
+  document.getElementById("dropDown").classList.toggle("show");
+}
+
+
+/* When the user clicks on the button, 
+toggle between hiding and showing the dropdown content */
+function myFunction() {
+    document.getElementById("myDropdown").classList.toggle("show");
+}
+
+// Close the dropdown menu if the user clicks outside of it
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
 

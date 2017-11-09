@@ -22,14 +22,24 @@
               Welcome To Data Viz
           </h1>
 
-          <div class = "div">
+          <!--Search Bar-->
+          <div class = "pac-container">
               <input id = "pac-input" type = "text" class = "form-control" placeholder = "Type Location">
           </div>
 
-          <div class = "dropdown">
-          
+          <!--Drop Down Menu-->
+          <div class="dropdown">
+            <button onclick="myFunction()" class="dropbtn">Dropdown</button>
+            <div id="myDropdown" class="dropdown-content">
+              <a href= "#">ALL</a>
+              <a onclick = "NYPDFunction()" href= "#">NYPD</a>
+              <a onclick = "FDNYFunction()" href= "#">FDNY</a>
+              <a onclick = "DOHMHFunction()" href= "#">DOHMH</a>
+              <a onclick = "DEPFunction()" href= "#">DEP</a>
+            </div>
           </div>
       </div>
+
       <div id="map">
         
       </div>
