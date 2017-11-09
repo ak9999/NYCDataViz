@@ -26,6 +26,11 @@
           <div class = "pac-container">
               <input id = "pac-input" type = "text" class = "form-control" placeholder = "Type Location">
           </div>
+          <div id="infowindow-content">
+            <img src="" width="16" height="16" id="place-icon">
+            <span id="place-name"  class="title"></span><br>
+            <span id="place-address"></span>
+          </div>
           <br><br>
           <!--Drop Down Menu-->
           <div class="dropdown">
@@ -46,9 +51,8 @@
 
   </body>
   <script type="text/javascript"
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9ElfPyeJ6ads4hslJ5eDQMrJaHx1tAp0&libraries=visualization">
-  </script>
-
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9ElfPyeJ6ads4hslJ5eDQMrJaHx1tAp0&libraries=visualization,places"></script>
+ 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
 
 </html>
