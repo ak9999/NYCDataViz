@@ -8,7 +8,40 @@ from dateutil.relativedelta import *
 from dateutil.parser import *
 
 import requests
-import os
+
+from pymongo import MongoClient
+from bson import json_util
+from os import environ
+
+
+jsonify = json_util.dumps  # Rename function for our purpose.
+
+# Create connection to MongoDB cluster, and yes these are global.
+try:
+    key = environ['DATABASE_KEY']
+    client = MongoClient(f'mongodb://mongo:{key}@citysnapshot01-shard-00-00-dax53.mongodb.net:27017,citysnapshot01-shard-00-01-dax53.mongodb.net:27017,citysnapshot01-shard-00-02-dax53.mongodb.net:27017/test?ssl=true&replicaSet=citysnapshot01-shard-0&authSource=admin')
+    db = client.database
+    collection = db.requests
+except:
+    print('Could not connect to MongoDB Atlas.')
+
+
+@app.route('/cursor')
+def print_collection():
+    global collection
+    print('Printing collection')
+    projection = {'_id': False, 'descriptor': True}
+    cursor = collection.find({})
+
+    for each in cursor:
+        print(each)
+
+    return '<h1>Check your console!</h1>'
+
+
+def store_retrieved_data(service_requests):
+    global collection
+    collection.insert(service_requests)  # Insert the array of JSON documents
 
 @app.route('/')
 @app.route('/index')
@@ -63,6 +96,7 @@ def request_data():
         filters.update({'$q': f'\'{complaint_type}\''})
 
     r = requests.get(api_url, params=filters)
+    store_retrieved_data(r.json())
 
     # Create the response
     response = Response(response=r, status=200, mimetype='application/json')
