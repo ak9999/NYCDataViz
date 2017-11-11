@@ -24,6 +24,7 @@ try:
     collection = db.requests
 except:
     print('Could not connect to MongoDB Atlas.')
+    exit()
 
 
 # Temporarily here to print out data from database.
@@ -32,6 +33,7 @@ def print_collection():
     global collection
     projection = {'_id': False, 'descriptor': True}
     cursor = collection.find({}, projection)
+    print(collection.count())
 
     return Response(response=jsonify(cursor), status=200, mimetype='application/json')
 
