@@ -26,17 +26,14 @@ except:
     print('Could not connect to MongoDB Atlas.')
 
 
+# Temporarily here to print out data from database.
 @app.route('/cursor')
 def print_collection():
     global collection
-    print('Printing collection')
     projection = {'_id': False, 'descriptor': True}
-    cursor = collection.find({})
+    cursor = collection.find({}, projection)
 
-    for each in cursor:
-        print(each)
-
-    return '<h1>Check your console!</h1>'
+    return Response(response=jsonify(cursor), status=200, mimetype='application/json')
 
 
 def store_retrieved_data(service_requests):
