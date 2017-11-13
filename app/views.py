@@ -18,24 +18,25 @@ jsonify = json_util.dumps  # Rename function for our purpose.
 
 # Create connection to MongoDB cluster, and yes these are global.
 try:
-    key = environ['DATABASE_KEY']
-    client = MongoClient(f'mongodb://mongo:{key}@citysnapshot01-shard-00-00-dax53.mongodb.net:27017,citysnapshot01-shard-00-01-dax53.mongodb.net:27017,citysnapshot01-shard-00-02-dax53.mongodb.net:27017/test?ssl=true&replicaSet=citysnapshot01-shard-0&authSource=admin')
+    database_uri = environ['DATABASE_URL']
+    client = MongoClient(database_uri)
     db = client.database
     collection = db.requests
+    collection.create_index([('unique_key', pymongo.DESCENDING)], unique=True)
 except:
     print('Could not connect to MongoDB Atlas.')
-    exit()
 
 
 # Temporarily here to print out data from database.
 @app.route('/cursor')
 def print_collection():
     global collection
-    projection = {'_id': False, 'descriptor': True}
+    projection = {'_id': False, 'created_date': True, 'descriptor': True}
     cursor = collection.find({}, projection)
     print(collection.count())
 
-    return Response(response=jsonify(cursor), status=200, mimetype='application/json')
+    return render_template('cursor.html', cursor=cursor)
+    # return Response(response=jsonify(cursor), status=200, mimetype='application/json')
 
 
 def store_retrieved_data(service_requests):
