@@ -36,12 +36,12 @@ def print_collection():
     print(collection.count())
 
     return render_template('cursor.html', cursor=cursor)
-    # return Response(response=jsonify(cursor), status=200, mimetype='application/json')
 
 
 def store_retrieved_data(service_requests):
     global collection
-    collection.insert(service_requests)  # Insert the array of JSON documents
+    pass
+
 
 @app.route('/')
 @app.route('/index')
@@ -50,6 +50,7 @@ def index():
     Returns a static webpage for now.
     '''
     return render_template('index.html')
+
 
 @app.route('/map')
 def map():
@@ -96,6 +97,8 @@ def request_data():
         filters.update({'$q': f'\'{complaint_type}\''})
 
     r = requests.get(api_url, params=filters)
+    store_retrieved_data(r.json())
+
 
     # Create the response
     response = Response(response=r, status=200, mimetype='application/json')
