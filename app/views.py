@@ -9,7 +9,7 @@ from dateutil.parser import *
 
 import requests
 
-from pymongo import MongoClient
+import pymongo
 from bson import json_util
 from os import environ
 
@@ -18,13 +18,13 @@ jsonify = json_util.dumps  # Rename function for our purpose.
 
 # Create connection to MongoDB cluster, and yes these are global.
 try:
-    database_uri = environ['DATABASE_URL']
-    client = MongoClient(database_uri)
+    key = environ['mongopass']
+    client = pymongo.MongoClient(f'mongodb://mongo:{key}@citysnap-shard-00-00-dax53.mongodb.net:27017,citysnap-shard-00-01-dax53.mongodb.net:27017,citysnap-shard-00-02-dax53.mongodb.net:27017/test?ssl=true&replicaSet=citysnap-shard-0&authSource=admin')
     db = client.database
     collection = db.requests
     collection.create_index([('unique_key', pymongo.DESCENDING)], unique=True)
-except:
-    print('Could not connect to MongoDB Atlas.')
+except Exception as e:
+    print('Exception:', e)
 
 
 # Temporarily here to print out data from database.
@@ -96,7 +96,6 @@ def request_data():
         filters.update({'$q': f'\'{complaint_type}\''})
 
     r = requests.get(api_url, params=filters)
-    store_retrieved_data(r.json())
 
     # Create the response
     response = Response(response=r, status=200, mimetype='application/json')
