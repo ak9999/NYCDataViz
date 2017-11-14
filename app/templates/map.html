@@ -17,38 +17,11 @@
     <script type="text/javascript" src="{{ url_for('static', filename='js/map.js') }}"></script>
   </head>
   <body>
-      <div id="floating-panel">
-          <h1>
-              Welcome To Data Viz
-          </h1>
 
-          <!--Search Bar-->
-          <div class = "pac-container">
-              <input id = "pac-input" type = "text" class = "form-control" placeholder = "Type Location">
-          </div>
-          <div id="infowindow-content">
-            <img src="" width="16" height="16" id="place-icon">
-            <span id="place-name"  class="title"></span><br>
-            <span id="place-address"></span>
-          </div>
-          <br><br>
-          <!--Drop Down Menu-->
-          <div class="dropdown">
-            <button onclick="myFunction()" class="dropbtn">Dropdown</button>
-            <div id="myDropdown" class="dropdown-content">
-              <a onclick = "allData()" href= "#">All Departments</a>
-              <a onclick = "NYPDFunction()" href= "#">Police Department</a>
-              <a onclick = "FDNYFunction()" href= "#">Fire Department</a>
-              <a onclick = "DOHMHFunction()" href= "#">Department of Health and Mental Hygiene</a>
-              <a onclick = "DEPFunction()" href= "#">Department of Environmental Protection</a>
-            </div>
-          </div>
+      
+      <div class = "contianer "id="map">
+          
       </div>
-
-      <div id="map">
-        
-      </div>
-
   </body>
   <script type="text/javascript"
   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9ElfPyeJ6ads4hslJ5eDQMrJaHx1tAp0&libraries=visualization,places"></script>
