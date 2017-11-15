@@ -59,20 +59,17 @@
         <div class="dropdown">
             <button onclick="myFunction()" class="dropbtn">All Departments</button>
             <div class="dropdown-content">
-              <a onclick = "allData()" href= "#">All Departments</a>
-              <a onclick = "NYPDFunction()" href= "#">Police Department</a>
-              <a onclick = "FDNYFunction()" href= "#">Fire Department</a>
-              <a onclick = "DOHMHFunction()" href= "#">Department of Health and Mental Hygiene</a>
-              <a onclick = "DEPFunction()" href= "#">Department of Environmental Protection</a>
+              <a id = "all" onclick = "allData()" href= "#">All Departments</a>
+              <a id = "NYPD" onclick = "NYPDFunction()" href= "#">Police Department</a>
+              <a id = "FDNY" onclick = "FDNYFunction()" href= "#">Fire Department</a>
+              <a id = "DOHMH" onclick = "DOHMHFunction()" href= "#">Department of Health and Mental Hygiene</a>
+              <a id = "DEP" onclick = "DEPFunction()" href= "#">Department of Environmental Protection</a>
             </div>
         </div>
 
-         <input class = "col-4" id = "space" type="text" name="search" placeholder="Search..">
-
-
-
+         <input class = "col-4" id = "complaint" type="text" name="search" placeholder="Search..">
       </div>
-      <div class = "contianer " id = "map">
+      <div id = "map">
           
       </div>
 
