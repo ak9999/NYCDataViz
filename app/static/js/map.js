@@ -1,4 +1,4 @@
-/ This example requires the Visualization library. Include the libraries=visualization
+// This example requires the Visualization library. Include the libraries=visualization
 // parameter when you first load the API. For example:
 // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=visualization">
 
@@ -386,15 +386,16 @@ function allData(){
 
 function complaintType(){
   ///query?&agency=NYPD&type=noise
-
     heatmap.setMap(null);
-    var name = document.getElementById.('complaint').value;
     var request = new XMLHttpRequest();
-    if(name === ''){
-      
+    var query = '';
+    if(queryString === '/query'){
+      query = queryString + '?&type=' + document.getElementById('complaint').value;
     }else{
-      var query = queryString + '&type=' + name;
+      query = queryString + '&type=' + document.getElementById('complaint').value;
     }
+    console.log(query);
+    
     request.open('GET', query, true);
 
     request.onload = function() {
@@ -413,6 +414,12 @@ function complaintType(){
             changeGradient();
         }
     };
+    request.onerror = function() {
+        // There was a connection error of some sort
+
+    };
+
+    request.send();
 
 }
 
@@ -427,6 +434,7 @@ function myFunction() {
     document.getElementById("myDropdown").classList.toggle("show");
 }
 
+/*DO I NEED THIS ???? */
 // Close the dropdown menu if the user clicks outside of it
 window.onclick = function(event) {
   if (!event.target.matches('.dropbtn')) {
