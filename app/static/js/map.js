@@ -1,4 +1,4 @@
-// This example requires the Visualization library. Include the libraries=visualization
+/ This example requires the Visualization library. Include the libraries=visualization
 // parameter when you first load the API. For example:
 // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=visualization">
 
@@ -6,6 +6,7 @@
 
 var map;
 var heatmap;
+var queryString = '/query';
 
 function ready(fn){
     if(document.attachEvent ? document.readyState === "complete" : document.readyState != "loading"){
@@ -237,6 +238,7 @@ function changeGradient() {
 function NYPDFunction(){
     heatmap.setMap(null);
     var request = new XMLHttpRequest();
+    queryString = '/query?&agency=NYPD';
     request.open('GET', '/query?&agency=NYPD', true);
 
     request.onload = function() {
@@ -266,6 +268,7 @@ function NYPDFunction(){
 function FDNYFunction(){
     heatmap.setMap(null);
     var request = new XMLHttpRequest();
+    queryString = '/query?&agency=FDNY';
     request.open('GET', '/query?&agency=FDNY', true);
 
     request.onload = function() {
@@ -294,6 +297,7 @@ function FDNYFunction(){
 function DOHMHFunction(){
     heatmap.setMap(null);
     var request = new XMLHttpRequest();
+    queryString = '/query?&agency=DOHMH';
     request.open('GET', '/query?&agency=DOHMH', true);
 
     request.onload = function() {
@@ -323,6 +327,7 @@ function DOHMHFunction(){
 function DEPFunction(){
     heatmap.setMap(null);
     var request = new XMLHttpRequest();
+    queryString = '/query?&agency=DEP';
     request.open('GET', '/query?&agency=DEP', true);
 
     request.onload = function() {
@@ -352,6 +357,7 @@ function DEPFunction(){
 function allData(){
     heatmap.setMap(null);
     var request = new XMLHttpRequest();
+    queryString = '/query';
     request.open('GET', '/query', true);
 
     request.onload = function() {
@@ -376,6 +382,38 @@ function allData(){
     };
 
     request.send();
+}
+
+function complaintType(){
+  ///query?&agency=NYPD&type=noise
+
+    heatmap.setMap(null);
+    var name = document.getElementById.('complaint').value;
+    var request = new XMLHttpRequest();
+    if(name === ''){
+      
+    }else{
+      var query = queryString + '&type=' + name;
+    }
+    request.open('GET', query, true);
+
+    request.onload = function() {
+        if (request.status >= 200 && request.status < 400) {
+            // Success!
+            var data = JSON.parse(request.responseText);
+            let result = [];
+            for (var i = 0; i < data.length; i++) {
+                result.push(new google.maps.LatLng(data[i].latitude, data[i].longitude));
+            }
+            console.log(result);
+            heatmap = new google.maps.visualization.HeatmapLayer({
+                data: result,
+                map: map
+            });
+            changeGradient();
+        }
+    };
+
 }
 
 function myFunction (){
@@ -403,5 +441,4 @@ window.onclick = function(event) {
     }
   }
 }
-
 
