@@ -7,7 +7,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <!-- Viewport for responsive web design -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>City Snapshot</title>
+    <title>Data Viz</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
@@ -17,36 +17,64 @@
     <script type="text/javascript" src="{{ url_for('static', filename='js/map.js') }}"></script>
   </head>
   <body>
-      <div id="floating-panel">
-          <h1>
-              Welcome To Data Viz
-          </h1>
 
-          <!--Search Bar-->
-          <div class = "pac-container">
-              <input id = "pac-input" type = "text" class = "form-control" placeholder = "Type Location">
+      <div class = "container-fluid header" id = "nav">
+        <nav class = "navbar navbar-default navbar-toggleable-md navbar-fixed-top" id = "Home navbar-fulllength"> 
+        <div class = "container-fluid"> 
+          <div class = "navbar-header">
+
+
+          <a href = "/index">
+            <h1 class = "logo blue"> Data Viz</h1>
+          </a>
+
           </div>
-          <div id="infowindow-content">
-            <img src="" width="16" height="16" id="place-icon">
-            <span id="place-name"  class="title"></span><br>
-            <span id="place-address"></span>
+
+            <div class = "collapse navbar-collapse" id = "myNavBar">
+             <ul class ="nav navbar-nav navbar-right">
+              
+               
+               <li><a class = "nav" href = "#About"> <h4> About Us </h4> </a></li>
+      
+            </ul>
           </div>
-          <br><br>
-          <!--Drop Down Menu-->
-          <div class="dropdown">
-            <button onclick="myFunction()" class="dropbtn">Dropdown</button>
-            <div id="myDropdown" class="dropdown-content">
-              <a onclick = "allData()" href= "#">All Departments</a>
-              <a onclick = "NYPDFunction()" href= "#">Police Department</a>
-              <a onclick = "FDNYFunction()" href= "#">Fire Department</a>
-              <a onclick = "DOHMHFunction()" href= "#">Department of Health and Mental Hygiene</a>
-              <a onclick = "DEPFunction()" href= "#">Department of Environmental Protection</a>
+
+
+          </div>
+        </div>
+      </nav> 
+      <br> <br>
+      <center> <h1 class = "blue"> NYC 311 Data</h1> </center>
+      <center > <h3 > Data take from the last three weeks of 311 data logs </h3> </center>
+      <br>
+
+      <div class = "container-fluid" id = "agencies"> 
+         <h2> 
+          <span class = "col-6"> Filter By Department </span>
+          <span id = "left"> Filter By Complaint </span>
+         </h2> 
+
+         <!--Drop Down Menu-->
+
+        <div class="dropdown">
+            <button onclick="myFunction()" class="dropbtn">All Departments</button>
+            <div class="dropdown-content">
+              <a id = "all" onclick = "allData()" href= "#">All Departments</a>
+              <a id = "NYPD" onclick = "NYPDFunction()" href= "#">Police Department</a>
+              <a id = "FDNY" onclick = "FDNYFunction()" href= "#">Fire Department</a>
+              <a id = "DOHMH" onclick = "DOHMHFunction()" href= "#">Department of Health and Mental Hygiene</a>
+              <a id = "DEP" onclick = "DEPFunction()" href= "#">Department of Environmental Protection</a>
             </div>
-          </div>
+        </div>
+
+         <input class = "col-4" id = "complaint" type="text" name="search" placeholder="Search..">
+      </div>
+      <div id = "map">
+          
       </div>
 
-      <div id="map">
-        
+      <div class = "container-fluid set_height" id = "agencies"> 
+     
       </div>
 
   </body>
