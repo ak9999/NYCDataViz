@@ -7,7 +7,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <!-- Viewport for responsive web design -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>City Snapshot</title>
+    <title>Data Viz</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
@@ -18,10 +18,52 @@
   </head>
   <body>
 
+      <div class = "container-fluid header" id = "nav">
+        <nav class = "navbar navbar-default navbar-toggleable-md navbar-fixed-top" id = "Home navbar-fulllength"> 
+        <div class = "container-fluid"> 
+          <div class = "navbar-header">
+
+
+          <a href = "/index">
+            <h1 class = "logo blue"> Data Viz</h1>
+          </a>
+
+          </div>
+
+            <div class = "collapse navbar-collapse" id = "myNavBar">
+             <ul class ="nav navbar-nav navbar-right">
+              
+               
+               <li><a class = "nav" href = "#About"> <h4> About Us </h4> </a></li>
       
-      <div class = "contianer "id="map">
+            </ul>
+          </div>
+
+
+          </div>
+        </div>
+      </nav> 
+      <br> <br>
+      <center> <h1 class = "blue"> NYC 311 Data</h1> </center>
+      <center > <h3 > Data take from the last three weeks of 311 data logs </h3> </center>
+      <br>
+
+      <div class = "container-fluid" id = "agencies"> 
+         <h2> 
+          <span class = "col-6"> Pick a Department </span>
+          <span id = "left"> Write a Type </span>
+         </h2> 
+         
+
+      </div>
+      <div class = "contianer " id = "map">
           
       </div>
+
+      <div class = "container-fluid set_height" id = "agencies"> 
+     
+      </div>
+
   </body>
   <script type="text/javascript"
   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9ElfPyeJ6ads4hslJ5eDQMrJaHx1tAp0&libraries=visualization,places"></script>
