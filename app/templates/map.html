@@ -50,10 +50,26 @@
 
       <div class = "container-fluid" id = "agencies"> 
          <h2> 
-          <span class = "col-6"> Pick a Department </span>
-          <span id = "left"> Write a Type </span>
+          <span class = "col-6"> Filter By Department </span>
+          <span id = "left"> Filter By Complaint </span>
          </h2> 
-         
+
+         <!--Drop Down Menu-->
+
+        <div class="dropdown">
+            <button onclick="myFunction()" class="dropbtn">All Departments</button>
+            <div class="dropdown-content">
+              <a onclick = "allData()" href= "#">All Departments</a>
+              <a onclick = "NYPDFunction()" href= "#">Police Department</a>
+              <a onclick = "FDNYFunction()" href= "#">Fire Department</a>
+              <a onclick = "DOHMHFunction()" href= "#">Department of Health and Mental Hygiene</a>
+              <a onclick = "DEPFunction()" href= "#">Department of Environmental Protection</a>
+            </div>
+        </div>
+
+         <input class = "col-4" id = "space" type="text" name="search" placeholder="Search..">
+
+
 
       </div>
       <div class = "contianer " id = "map">
