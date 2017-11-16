@@ -1,26 +1,11 @@
 
 
-.parallax { 
-    /* The image used */
-    background-image: url("http://wallpapercave.com/wp/PV78PWB.jpg");
-
-    /* Set a specific height */
-    height: 750px;
-   
-
-    /* Create the parallax scrolling effect */
-    background-attachment: fixed;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
 a:hover{
  color:#4682B4 ;
 }
 
 #main_header{
-	margin-top:60px; 
+	margin-top:80px; 
 	margin-left:50px;
 }
 #under_header{
@@ -58,10 +43,39 @@ a:hover{
 
 .blue{
 	background-color: #4682B4;
-	
 }
 .page{
 	min-height: 650px; 
+}
+.nav_link:hover{
+	color:red;
+}
+.navbar{
+	background: rgba(204, 204, 204, 0);
+}
+
+.parallax { 
+    /* The image used */
+    background-image: url("http://wallpapercave.com/wp/PV78PWB.jpg");
+
+    /* Set a specific height */
+    height: 750px;
+   
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.nav_link{
+ padding-top: 15px;
+}
+
+.logo{
+	margin-left: 10px;
+	padding-top: 10px;
 }
 
 
