@@ -1,12 +1,12 @@
-
+a,h1,h2,h3,h4,h5{
+	font-family: 'Roboto', sans-serif;
+}
 
 a:hover{
  color:#4682B4 ;
 }
 
-#Home{
-	opacity: .5;
-}
+
 #main_header{
 	margin-top:100px; 
 	margin-left:50px;
@@ -27,7 +27,9 @@ a:hover{
 	border-width: 3px
 	border-color: white;	
 }
-
+.opacity{
+	background-color: rgba(0, 0, 0, 0);
+}
 .white_shadow{
 
 }
@@ -67,7 +69,7 @@ a:hover{
 .parallax:before{
 	content: '';
 	position: absolute;
-	height:100%;
+	height:150%;
 	width:100%;
 	top:0;
 	left:0;
@@ -78,7 +80,7 @@ a:hover{
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    filter:brightness(50%);
+    filter:brightness(65%);
 	z-index: -1;
 }
 
