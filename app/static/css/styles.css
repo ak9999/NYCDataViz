@@ -4,8 +4,11 @@ a:hover{
  color:#4682B4 ;
 }
 
+#Home{
+	opacity: .5;
+}
 #main_header{
-	margin-top:80px; 
+	margin-top:100px; 
 	margin-left:50px;
 }
 #under_header{
@@ -25,9 +28,7 @@ a:hover{
 	border-color: white;	
 }
 
-.blue_font{
-	color: #4682B4;
-}
+
 .header{
 	font-size:40px;
 	margin-top: 100px;
@@ -44,30 +45,40 @@ a:hover{
 .blue{
 	background-color: #4682B4;
 }
+.blue_font{
+	color: #4682B4;
+}
 .page{
 	min-height: 650px; 
 }
 .nav_link:hover{
 	color:red;
 }
-.navbar{
-	background: rgba(204, 204, 204, 0);
-}
 
 .parallax { 
     /* The image used */
-    background-image: url("http://wallpapercave.com/wp/PV78PWB.jpg");
-
     /* Set a specific height */
     height: 750px;
-   
-
     /* Create the parallax scrolling effect */
-    background-attachment: fixed;
+
+}
+.parallax:before{
+	content: '';
+	position: absolute;
+	height:100%;
+	width:100%;
+	top:0;
+	left:0;
+
+	background-image: url(http://wallpapercave.com/wp/PV78PWB.jpg);
+	background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    filter:blur(1px);
+	z-index: -1;
 }
+
 
 .nav_link{
  padding-top: 15px;
@@ -76,6 +87,7 @@ a:hover{
 .logo{
 	margin-left: 10px;
 	padding-top: 10px;
+
 }
 
 
