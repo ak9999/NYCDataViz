@@ -28,7 +28,8 @@ a:hover{
 	border-color: white;	
 }
 .opacity{
-	background-color: rgba(0, 0, 0, 0);
+	background-color: rgba(0, 0, 0, 1);
+	mix-blend-mode: difference;
 }
 .white_shadow{
 
@@ -92,8 +93,8 @@ a:hover{
 .logo{
 	margin-left: 10px;
 	padding-top: 10px;
-
 }
+
 
 
 
