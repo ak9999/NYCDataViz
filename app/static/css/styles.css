@@ -7,16 +7,7 @@ a:hover{
 }
 
 
-#main_header{
-	margin-top:100px; 
-	margin-left:50px;
-}
-#under_header{
-	margin-left:100px;
-}
-#space{
-	margin-left: 50%;
-}
+
 #get_started{
 	margin-top: 200px;
 	color: white;
@@ -27,8 +18,24 @@ a:hover{
 	border-width: 3px
 	border-color: white;	
 }
+#logo{
+	margin-left: 10px;
+	padding-top: 10px;
+	color: white;
+}
+#main_header{
+	margin-top:100px; 
+	margin-left:50px;
+}
+#space{
+	margin-left: 50%;
+}
+#under_header{
+	margin-left:100px;
+}
 .opacity{
 	background-color: rgba(0, 0, 0, 1);
+	border-color: #4682B4;
 	mix-blend-mode: difference;
 }
 .white_shadow{
@@ -90,10 +97,7 @@ a:hover{
  padding-top: 15px;
 }
 
-.logo{
-	margin-left: 10px;
-	padding-top: 10px;
-}
+
 
 
 
