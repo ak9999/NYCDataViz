@@ -8,7 +8,46 @@ from dateutil.relativedelta import *
 from dateutil.parser import *
 
 import requests
-import os
+
+import pymongo
+from bson import json_util
+from os import environ
+
+
+# Create connection to MongoDB cluster, and yes these are global.
+try:
+    key = environ['mongopass']
+    client = pymongo.MongoClient(f'mongodb://mongo:{key}@citysnap-shard-00-00-dax53.mongodb.net:27017,citysnap-shard-00-01-dax53.mongodb.net:27017,citysnap-shard-00-02-dax53.mongodb.net:27017/test?ssl=true&replicaSet=citysnap-shard-0&authSource=admin')
+    db = client.database
+    collection = db.requests
+    collection.create_index([('unique_key', pymongo.DESCENDING)], unique=True)
+except Exception as e:
+    print('Exception:', e)
+
+
+# Temporarily here to print out data from database.
+@app.route('/cursor')
+def print_collection():
+    global collection
+    projection = {'_id': False, 'unique_key': True, 'created_date': True, 'descriptor': True}
+    cursor = collection.find({}, projection).sort('created_date', pymongo.DESCENDING)
+
+    return render_template('cursor.html', count=collection.count(), cursor=cursor)
+
+
+def store_retrieved_data(service_requests):
+    # service_requests: a list filled with JSON documents.
+    global collection
+    '''
+    TODO:
+    # Build a list of unique_key from service_requests
+    unique_key_list = [key['unique_key'] for key in service_requests]
+    '''
+    try:
+        collection.insert_many(service_requests, ordered=False)
+    except Exception as e:
+        print("Exception:", e)
+
 
 @app.route('/')
 @app.route('/index')
@@ -17,6 +56,7 @@ def index():
     Returns a static webpage for now.
     '''
     return render_template('index.html')
+
 
 @app.route('/map')
 def map():
@@ -48,7 +88,7 @@ def request_data():
     '''
     api_url = "https://data.cityofnewyork.us/resource/fhrw-4uyv.json?"
     filters = {
-        '$limit': 10000,
+        '$limit': 50000,
         '$select': columns,
         '$where': f'created_date between \'{time_delta}\' and \'{today}\'' +
             'and longitude is not null'
@@ -63,6 +103,7 @@ def request_data():
         filters.update({'$q': f'\'{complaint_type}\''})
 
     r = requests.get(api_url, params=filters)
+    store_retrieved_data(r.json())
 
     # Create the response
     response = Response(response=r, status=200, mimetype='application/json')
