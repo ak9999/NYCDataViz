@@ -6,6 +6,7 @@
 
 var map;
 var heatmap;
+var queryString = '/query';
 
 function ready(fn){
     if(document.attachEvent ? document.readyState === "complete" : document.readyState != "loading"){
@@ -15,6 +16,7 @@ function ready(fn){
     }
 }
 
+
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
         zoom: 13,
@@ -22,9 +24,150 @@ function initMap() {
             lat: 40.730815,
             lng: -73.997471
         },
+        // Make it Night View
+        styles: [
+            {elementType: 'geometry', stylers: [{color: '#242f3e'}]},
+            {elementType: 'labels.text.stroke', stylers: [{color: '#242f3e'}]},
+            {elementType: 'labels.text.fill', stylers: [{color: '#746855'}]},
+            {
+              featureType: 'administrative.locality',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#d59563'}]
+            },
+            {
+              featureType: 'poi',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#d59563'}]
+            },
+            {
+              featureType: 'poi.park',
+              elementType: 'geometry',
+              stylers: [{color: '#263c3f'}]
+            },
+            {
+              featureType: 'poi.park',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#6b9a76'}]
+            },
+            {
+              featureType: 'road',
+              elementType: 'geometry',
+              stylers: [{color: '#38414e'}]
+            },
+            {
+              featureType: 'road',
+              elementType: 'geometry.stroke',
+              stylers: [{color: '#212a37'}]
+            },
+            {
+              featureType: 'road',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#9ca5b3'}]
+            },
+            {
+              featureType: 'road.highway',
+              elementType: 'geometry',
+              stylers: [{color: '#746855'}]
+            },
+            {
+              featureType: 'road.highway',
+              elementType: 'geometry.stroke',
+              stylers: [{color: '#1f2835'}]
+            },
+            {
+              featureType: 'road.highway',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#f3d19c'}]
+            },
+            {
+              featureType: 'transit',
+              elementType: 'geometry',
+              stylers: [{color: '#2f3948'}]
+            },
+            {
+              featureType: 'transit.station',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#d59563'}]
+            },
+            {
+              featureType: 'water',
+              elementType: 'geometry',
+              stylers: [{color: '#17263c'}]
+            },
+            {
+              featureType: 'water',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#515c6d'}]
+            },
+            {
+              featureType: 'water',
+              elementType: 'labels.text.stroke',
+              stylers: [{color: '#17263c'}]
+            }
+          ],
         mapTypeId: google.maps.MapTypeId.MAP,
         disableDefaultUI: true
     });
+
+    // Auto Complete
+        var input = document.getElementById('pac-input');
+
+        var autocomplete = new google.maps.places.Autocomplete(input);
+
+        // Bind the map's bounds (viewport) property to the autocomplete object,
+        // so that the autocomplete requests use the current map bounds for the
+        // bounds option in the request.
+        autocomplete.bindTo('bounds', map);
+
+        var infowindow = new google.maps.InfoWindow();
+        var infowindowContent = document.getElementById('infowindow-content');
+        infowindow.setContent(infowindowContent);
+        // whats this??
+
+        var marker = new google.maps.Marker({
+          map: map,
+          anchorPoint: new google.maps.Point(0, -29)
+        });
+
+        autocomplete.addListener('place_changed', function() {
+          infowindow.close();
+          marker.setVisible(false);
+          var place = autocomplete.getPlace();
+          if (!place.geometry) {
+            // User entered the name of a Place that was not suggested and
+            // pressed the Enter key, or the Place Details request failed.
+            window.alert("No details available for input: '" + place.name + "'");
+            return;
+          }
+
+          // If the place has a geometry, then present it on a map.
+          if (place.geometry.viewport) {
+            map.fitBounds(place.geometry.viewport);
+          } else {
+            map.setCenter(place.geometry.location);
+            map.setZoom(17);  // Why 17? Because it looks good.
+          }
+          marker.setPosition(place.geometry.location);
+          marker.setVisible(true);
+
+
+          var address = '';
+          if (place.address_components) {
+            address = [
+              (place.address_components[0] && place.address_components[0].short_name || ''),
+              (place.address_components[1] && place.address_components[1].short_name || ''),
+              (place.address_components[2] && place.address_components[2].short_name || '')
+            ].join(' ');
+          }
+
+          infowindowContent.children['place-icon'].src = place.icon;
+          infowindowContent.children['place-name'].textContent = place.name;
+          infowindowContent.children['place-address'].textContent = address;
+          infowindow.open(map, marker);
+        });
+
+
+    // end of Auto Complete
 
     var request = new XMLHttpRequest();
     request.open('GET', '/query', true);
@@ -42,10 +185,12 @@ function initMap() {
                 data: result,
                 map: map
             });
+            changeGradient();
         }
     };
     request.onerror = function() {
         // There was a connection error of some sort
+
     };
 
     request.send();
@@ -63,10 +208,6 @@ function recv_data(data_url, callback) {
     };
     xmlHttp.open("GET", data_url, true); // asynchronous request
     xmlHttp.send(null);
-}
-
-function toggleHeatmap() {
-    heatmap.setMap(heatmap.getMap() ? null : map);
 }
 
 
@@ -87,87 +228,225 @@ function changeGradient() {
         'rgba(191, 0, 31, 1)',
         'rgba(255, 0, 0, 1)'
     ]
-    heatmap.set('gradient', heatmap.get('gradient') ? null : gradient);
+    heatmap.set('gradient', gradient);
 }
 
-function changeRadius() {
-    heatmap.set('radius', heatmap.get('radius') ? null : 20);
-}
 
-function changeOpacity() {
-    heatmap.set('opacity', heatmap.get('opacity') ? null : 0.2);
-}
+/*Function For query */
 
-// This example adds a search box to a map, using the Google Place Autocomplete
-// feature. People can enter geographical searches. The search box will return a
-// pick list containing a mix of places and predicted search terms.
 
-// This example requires the Places library. Include the libraries=places
-// parameter when you first load the API. For example:
-// <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+function NYPDFunction(){
+    heatmap.setMap(null);
+    var request = new XMLHttpRequest();
+    queryString = '/query?&agency=NYPD';
+    request.open('GET', '/query?&agency=NYPD', true);
 
-function initAutocomplete() {
-    /* map = new google.maps.Map(document.getElementById('map'), {
-    center: {
-    lat: -33.8688,
-    lng: 151.2195
-},
-zoom: 13,
-mapTypeId: google.maps.MapTypeId.ROADMAP
-}); */
-
-// Create the search box and link it to the UI element.
-var input = document.getElementById('pac-input');
-var searchBox = new google.maps.places.SearchBox(input);
-// map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-
-// Bias the SearchBox results towards current map's viewport.
-map.addListener('bounds_changed', function() {
-    searchBox.setBounds(map.getBounds());
-});
-
-var markers = [];
-// Listen for the event fired when the user selects a prediction and retrieve
-// more details for that place.
-searchBox.addListener('places_changed', function() {
-    var places = searchBox.getPlaces();
-
-    if (places.length === 0) {
-        return;
-    }
-
-    // Clear out the old markers.
-    markers.forEach(function(marker) {
-        marker.setMap(null);
-    });
-    markers = [];
-
-    // For each place, get the icon, name and location.
-    var bounds = new google.maps.LatLngBounds();
-    places.forEach(function(place) {
-        var icon = {
-            url: place.icon,
-            size: new google.maps.Size(71, 71),
-            origin: new google.maps.Point(0, 0),
-            anchor: new google.maps.Point(17, 34),
-            scaledSize: new google.maps.Size(25, 25)
-        };
-
-        // Create a marker for each place.
-        markers.push(new google.maps.Marker({
-            map: map,
-            icon: icon,
-            title: place.name,
-            position: place.geometry.location
-        }));
-
-        if (place.geometry.viewport) {
-            // Only geocodes have viewport.
-            bounds.union(place.geometry.viewport);
-        } else {
-            bounds.extend(place.geometry.location);
+    request.onload = function() {
+        if (request.status >= 200 && request.status < 400) {
+            // Success!
+            var data = JSON.parse(request.responseText);
+            let result = [];
+            for (var i = 0; i < data.length; i++) {
+                result.push(new google.maps.LatLng(data[i].latitude, data[i].longitude));
+            }
+            console.log(result);
+            heatmap = new google.maps.visualization.HeatmapLayer({
+                data: result,
+                map: map
+            });
+            changeGradient();
         }
-    });
-    map.fitBounds(bounds);
-});
+    };
+    request.onerror = function() {
+        // There was a connection error of some sort
+
+    };
+
+    request.send();
 }
+
+function FDNYFunction(){
+    heatmap.setMap(null);
+    var request = new XMLHttpRequest();
+    queryString = '/query?&agency=FDNY';
+    request.open('GET', '/query?&agency=FDNY', true);
+
+    request.onload = function() {
+        if (request.status >= 200 && request.status < 400) {
+            // Success!
+            var data = JSON.parse(request.responseText);
+            let result = [];
+            for (var i = 0; i < data.length; i++) {
+                result.push(new google.maps.LatLng(data[i].latitude, data[i].longitude));
+            }
+            console.log(result);
+            heatmap = new google.maps.visualization.HeatmapLayer({
+                data: result,
+                map: map
+            });
+            changeGradient();
+        }
+    };
+    request.onerror = function() {
+        // There was a connection error of some sort
+
+    };
+    request.send();
+}
+
+function DOHMHFunction(){
+    heatmap.setMap(null);
+    var request = new XMLHttpRequest();
+    queryString = '/query?&agency=DOHMH';
+    request.open('GET', '/query?&agency=DOHMH', true);
+
+    request.onload = function() {
+        if (request.status >= 200 && request.status < 400) {
+            // Success!
+            var data = JSON.parse(request.responseText);
+            let result = [];
+            for (var i = 0; i < data.length; i++) {
+                result.push(new google.maps.LatLng(data[i].latitude, data[i].longitude));
+            }
+            console.log(result);
+            heatmap = new google.maps.visualization.HeatmapLayer({
+                data: result,
+                map: map
+            });
+            changeGradient();
+        }
+    };
+    request.onerror = function() {
+        // There was a connection error of some sort
+
+    };
+
+    request.send();
+}
+
+function DEPFunction(){
+    heatmap.setMap(null);
+    var request = new XMLHttpRequest();
+    queryString = '/query?&agency=DEP';
+    request.open('GET', '/query?&agency=DEP', true);
+
+    request.onload = function() {
+        if (request.status >= 200 && request.status < 400) {
+            // Success!
+            var data = JSON.parse(request.responseText);
+            let result = [];
+            for (var i = 0; i < data.length; i++) {
+                result.push(new google.maps.LatLng(data[i].latitude, data[i].longitude));
+            }
+            console.log(result);
+            heatmap = new google.maps.visualization.HeatmapLayer({
+                data: result,
+                map: map
+            });
+            changeGradient();
+        }
+    };
+    request.onerror = function() {
+        // There was a connection error of some sort
+
+    };
+
+    request.send();
+}
+
+function allData(){
+    heatmap.setMap(null);
+    var request = new XMLHttpRequest();
+    queryString = '/query';
+    request.open('GET', '/query', true);
+
+    request.onload = function() {
+        if (request.status >= 200 && request.status < 400) {
+            // Success!
+            var data = JSON.parse(request.responseText);
+            let result = [];
+            for (var i = 0; i < data.length; i++) {
+                result.push(new google.maps.LatLng(data[i].latitude, data[i].longitude));
+            }
+            console.log(result);
+            heatmap = new google.maps.visualization.HeatmapLayer({
+                data: result,
+                map: map
+            });
+            changeGradient();
+        }
+    };
+    request.onerror = function() {
+        // There was a connection error of some sort
+
+    };
+
+    request.send();
+}
+
+function complaintType(){
+  ///query?&agency=NYPD&type=noise
+    heatmap.setMap(null);
+    var request = new XMLHttpRequest();
+    var query = '';
+    if(queryString === '/query'){
+      query = queryString + '?&type=' + document.getElementById('complaint').value;
+    }else{
+      query = queryString + '&type=' + document.getElementById('complaint').value;
+    }
+    console.log(query);
+    
+    request.open('GET', query, true);
+
+    request.onload = function() {
+        if (request.status >= 200 && request.status < 400) {
+            // Success!
+            var data = JSON.parse(request.responseText);
+            let result = [];
+            for (var i = 0; i < data.length; i++) {
+                result.push(new google.maps.LatLng(data[i].latitude, data[i].longitude));
+            }
+            console.log(result);
+            heatmap = new google.maps.visualization.HeatmapLayer({
+                data: result,
+                map: map
+            });
+            changeGradient();
+        }
+    };
+    request.onerror = function() {
+        // There was a connection error of some sort
+
+    };
+
+    request.send();
+
+}
+
+function myFunction (){
+  document.getElementById("dropDown").classList.toggle("show");
+}
+
+
+/* When the user clicks on the button, 
+toggle between hiding and showing the dropdown content */
+function myFunction() {
+    document.getElementById("myDropdown").classList.toggle("show");
+}
+
+/*DO I NEED THIS ???? */
+// Close the dropdown menu if the user clicks outside of it
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
+
