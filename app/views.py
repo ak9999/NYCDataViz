@@ -14,8 +14,6 @@ from bson import json_util
 from os import environ
 
 
-jsonify = json_util.dumps  # Rename function for our purpose.
-
 # Create connection to MongoDB cluster, and yes these are global.
 try:
     key = environ['mongopass']
@@ -31,16 +29,24 @@ except Exception as e:
 @app.route('/cursor')
 def print_collection():
     global collection
-    projection = {'_id': False, 'created_date': True, 'descriptor': True}
-    cursor = collection.find({}, projection)
-    print(collection.count())
+    projection = {'_id': False, 'unique_key': True, 'created_date': True, 'descriptor': True}
+    cursor = collection.find({}, projection).sort('created_date', pymongo.DESCENDING)
 
-    return render_template('cursor.html', cursor=cursor)
+    return render_template('cursor.html', count=collection.count(), cursor=cursor)
 
 
 def store_retrieved_data(service_requests):
+    # service_requests: a list filled with JSON documents.
     global collection
-    pass
+    '''
+    TODO:
+    # Build a list of unique_key from service_requests
+    unique_key_list = [key['unique_key'] for key in service_requests]
+    '''
+    try:
+        collection.insert_many(service_requests, ordered=False)
+    except Exception as e:
+        print("Exception:", e)
 
 
 @app.route('/')
@@ -82,7 +88,7 @@ def request_data():
     '''
     api_url = "https://data.cityofnewyork.us/resource/fhrw-4uyv.json?"
     filters = {
-        '$limit': 10000,
+        '$limit': 50000,
         '$select': columns,
         '$where': f'created_date between \'{time_delta}\' and \'{today}\'' +
             'and longitude is not null'
@@ -98,7 +104,6 @@ def request_data():
 
     r = requests.get(api_url, params=filters)
     store_retrieved_data(r.json())
-
 
     # Create the response
     response = Response(response=r, status=200, mimetype='application/json')
