@@ -6,6 +6,7 @@
         <title>Incoming JSON data!</title>
     </head>
     <body>
+        <h1># Documents: {{ count }}</h1>
         {% for each in cursor %}
             <div class="document">
                 {{ each }}
