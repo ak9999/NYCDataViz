@@ -17,13 +17,10 @@ import os
 # Create connection to MongoDB cluster, and yes these are global.
 try:
     key = os.environ['mongopass']
-    print(key)
     client = pymongo.MongoClient(f'mongodb://mongo:{key}@citysnap-shard-00-00-dax53.mongodb.net:27017,citysnap-shard-00-01-dax53.mongodb.net:27017,citysnap-shard-00-02-dax53.mongodb.net:27017/test?ssl=true&replicaSet=citysnap-shard-0&authSource=admin')
     db = client.database
     collection = db.requests
-    print(collection)
     collection.create_index([('unique_key', pymongo.DESCENDING)], unique=True)
-    print('Created index')
 except Exception as e:
     print('Exception:', e)
 
