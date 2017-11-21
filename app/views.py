@@ -11,16 +11,19 @@ import requests
 
 import pymongo
 from bson import json_util
-from os import environ
+import os
 
 
 # Create connection to MongoDB cluster, and yes these are global.
 try:
-    key = environ['mongopass']
+    key = os.environ['mongopass']
+    print(key)
     client = pymongo.MongoClient(f'mongodb://mongo:{key}@citysnap-shard-00-00-dax53.mongodb.net:27017,citysnap-shard-00-01-dax53.mongodb.net:27017,citysnap-shard-00-02-dax53.mongodb.net:27017/test?ssl=true&replicaSet=citysnap-shard-0&authSource=admin')
     db = client.database
     collection = db.requests
+    print(collection)
     collection.create_index([('unique_key', pymongo.DESCENDING)], unique=True)
+    print('Created index')
 except Exception as e:
     print('Exception:', e)
 
@@ -28,22 +31,24 @@ except Exception as e:
 # Temporarily here to print out data from database.
 @app.route('/cursor')
 def print_collection():
-    global collection
-    projection = {'_id': False, 'unique_key': True, 'created_date': True, 'descriptor': True}
-    cursor = collection.find({}, projection).sort('created_date', pymongo.DESCENDING)
+    try:
+        global collection
+        projection = {'_id': False, 'unique_key': True, 'created_date': True, 'descriptor': True}
+        cursor = collection.find({}, projection).sort('created_date', pymongo.DESCENDING)
 
-    return render_template('cursor.html', count=collection.count(), cursor=cursor)
-
+        return render_template('cursor.html', count=collection.count(), cursor=cursor)
+    except:
+        return Response(response="404", status=404, mimetype='text/html')
 
 def store_retrieved_data(service_requests):
     # service_requests: a list filled with JSON documents.
-    global collection
     '''
     TODO:
     # Build a list of unique_key from service_requests
     unique_key_list = [key['unique_key'] for key in service_requests]
     '''
     try:
+        global collection
         collection.insert_many(service_requests, ordered=False)
     except Exception as e:
         print("Exception:", e)
