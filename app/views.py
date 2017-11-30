@@ -37,6 +37,7 @@ def print_collection():
     except:
         return Response(response="404", status=404, mimetype='text/html')
 
+
 def store_retrieved_data(service_requests):
     # service_requests: a list filled with JSON documents.
     '''
@@ -65,14 +66,61 @@ def map():
     return render_template('map.html')
 
 
-@app.route('/query')
+@app.route('/q')
 def request_data():
+    # These are the desired columns:
+    global collection
+    projection = {
+        '_id': False,
+        'unique_key': True,
+        'created_date': True,
+        'agency': True,
+        'agency_name': True,
+        'complaint_type': True,
+        'descriptor': True,
+    }
+
+    # Define date range
+    eastern_tz = pytz.timezone('US/Eastern')  # Generate time zone from string.
+    today = datetime.now()  # Generate datetime object right now.
+    today = today.astimezone(eastern_tz)  # Convert today to new datetime
+    time_delta = today - relativedelta(days=3)
+
+    # Convert datetimes into Floating Timestamps for use with Socrata.
+    today = today.strftime('%Y-%m-%d') + 'T00:00:00'
+    time_delta = time_delta.strftime('%Y-%m-%d') + 'T00:00:00'
+
+    query = {
+        'created_date': {
+            '$lt': time_delta,
+            '$gte': today
+        }
+    }
+    agency = request.args.get('agency')
+    complaint_type = request.args.get('type')
+
+    if agency is not None:
+        query['agency'] = agency
+    if complaint_type is not None:
+        query['complaint_type'] = complaint_type
+
+    cursor = collection.find(query, projection)
+
+    # Create the response
+    return Response(
+        response=json_util.dumps(cursor),
+        status=200,
+        mimetype='application/json'
+    )
+
+
+@app.route('/query')
+def retrieve():
     # These are the desired columns:
     # ['Unique Key', 'Latitude', 'Longitude', 'Created Date', 'Agency', 'Agency Name', 'Complaint Type', 'Descriptor']
     columns = "unique_key,latitude,longitude,created_date,agency,agency_name,complaint_type,descriptor"
 
-    # Get recent service requests
-    eastern_tz = pytz.timezone('US/Eastern')  # Generate time zone from string.
+    # Get recent service requests from database
     today = datetime.now()  # Generate datetime object right now.
     today = today.astimezone(eastern_tz)  # Convert today to new datetime
     time_delta = today - relativedelta(days=3)
