@@ -17,7 +17,8 @@ import os
 # Create connection to MongoDB cluster, and yes these are global.
 try:
     key = os.environ['mongopass']
-    client = pymongo.MongoClient(f'mongodb://mongo:{key}@citysnap-shard-00-00-dax53.mongodb.net:27017,citysnap-shard-00-01-dax53.mongodb.net:27017,citysnap-shard-00-02-dax53.mongodb.net:27017/test?ssl=true&replicaSet=citysnap-shard-0&authSource=admin')
+    # Break up this URI into strings for storing as a environment variable later
+    client = pymongo.MongoClient('mongodb://mongo:{}@citysnap-shard-00-00-dax53.mongodb.net:27017,citysnap-shard-00-01-dax53.mongodb.net:27017,citysnap-shard-00-02-dax53.mongodb.net:27017/test?ssl=true&replicaSet=citysnap-shard-0&authSource=admin'.format(key))
     db = client.database
     collection = db.requests
     collection.create_index([('unique_key', pymongo.DESCENDING)], unique=True)
@@ -83,19 +84,12 @@ def request_data():
     # Define date range
     eastern_tz = pytz.timezone('US/Eastern')  # Generate time zone from string.
     today = datetime.now()  # Generate datetime object right now.
-    today = today.astimezone(eastern_tz)  # Convert today to new datetime
+    today = eastern_tz.localize(today)  # Convert today to new datetime
     time_delta = today - relativedelta(days=3)
+    today = today.strftime('%Y-%m-%d')
+    time_delta = time_delta.strftime('%Y-%m-%d')
 
-    # Convert datetimes into Floating Timestamps for use with Socrata.
-    today = today.strftime('%Y-%m-%d') + 'T00:00:00'
-    time_delta = time_delta.strftime('%Y-%m-%d') + 'T00:00:00'
-
-    query = {
-        'created_date': {
-            '$lt': time_delta,
-            '$gte': today
-        }
-    }
+    query = { 'created_date': { '$gte': time_delta } }
     agency = request.args.get('agency')
     complaint_type = request.args.get('type')
 
@@ -121,8 +115,10 @@ def retrieve():
     columns = "unique_key,latitude,longitude,created_date,agency,agency_name,complaint_type,descriptor"
 
     # Get recent service requests from database
-    today = datetime.now()  # Generate datetime object right now.
-    today = today.astimezone(eastern_tz)  # Convert today to new datetime
+    eastern_tz = pytz.timezone('US/Eastern')  # Generate time zone from string.
+    today = datetime.utcnow()  # Generate datetime object right now.
+    # today = today.astimezone(eastern_tz)  # Convert today to new datetime
+    today = eastern_tz.localize(today)
     time_delta = today - relativedelta(days=3)
 
     # Convert datetimes into Floating Timestamps for use with Socrata.
@@ -140,20 +136,20 @@ def retrieve():
     filters = {
         '$limit': 50000,
         '$select': columns,
-        '$where': f'created_date between \'{time_delta}\' and \'{today}\'' +
+        '$where': 'created_date between \'{}\' and \'{}\''.format(time_delta, today) +
             'and longitude is not null'
     }
     agency = request.args.get('agency')
     complaint_type = request.args.get('type')
     if agency is not None:
         # Append the agency to the API url for searching.
-        api_url += f'agency={agency}'
+        api_url += 'agency={}'.format(agency)
     if complaint_type is not None:
         # Update the filter with a full text search of the data set.
-        filters.update({'$q': f'\'{complaint_type}\''})
+        filters.update({'$q': '\'{}\''.format(complaint_type)})
 
     r = requests.get(api_url, params=filters)
-    store_retrieved_data(r.json())
+    # store_retrieved_data(r.json())
 
     # Create the response
     response = Response(response=r, status=200, mimetype='application/json')
