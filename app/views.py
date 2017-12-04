@@ -86,8 +86,6 @@ def request_data():
     today = datetime.now()  # Generate datetime object right now.
     today = eastern_tz.localize(today)  # Convert today to new datetime
     time_delta = today - relativedelta(days=3)
-    today = today.strftime('%Y-%m-%d')
-    time_delta = time_delta.strftime('%Y-%m-%d')
 
     query = { 'created_date': { '$gte': time_delta } }
     agency = request.args.get('agency')
