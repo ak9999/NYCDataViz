@@ -41,13 +41,12 @@ def print_collection():
 
 def store_retrieved_data(service_requests):
     # service_requests: a list filled with JSON documents.
-    '''
-    TODO:
-    # Build a list of unique_key from service_requests
-    unique_key_list = [key['unique_key'] for key in service_requests]
-    '''
     try:
         global collection
+        for request in service_requests:
+            request['created_date'] = parse(request['created_date'])
+            request['unique_key'] = int(request['unique_key'])
+
         collection.insert_many(service_requests, ordered=False)
     except Exception as e:
         print("Exception:", e)
@@ -147,7 +146,7 @@ def retrieve():
         filters.update({'$q': '\'{}\''.format(complaint_type)})
 
     r = requests.get(api_url, params=filters)
-    # store_retrieved_data(r.json())
+    store_retrieved_data(r.json())
 
     # Create the response
     response = Response(response=r, status=200, mimetype='application/json')
