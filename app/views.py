@@ -93,7 +93,11 @@ def request_data():
     if agency is not None:
         query['agency'] = agency
     if complaint_type is not None:
-        query['complaint_type'] = complaint_type
+        collection.create_index(
+            [('complaint_type', pymongo.TEXT), ('descriptor', pymongo.TEXT)],
+            name='r_type'
+        )
+        query['$text'] = {'$search': complaint_type}
 
     cursor = collection.find(query, projection)
 
