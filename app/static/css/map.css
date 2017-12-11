@@ -1,15 +1,35 @@
-html,
-body,
-
-#map {
-  margin: 4px;
-  min-height:450px;
-  padding: 0;
+a,h1,h2,h3,h4,h5{
+  font-family: 'Lato', sans-serif;
 }
-.set_height{
-  min-height: 300px;
+h1{
+  font-size: 250%;
+}
+a{
+  font-size: 18px;
+}
+a:hover{
+  color: black;
 }
 
+#agencies{
+  background-color: #F8F8FF;
+  min-height: 100px;
+}
+
+
+#button{
+  position: relative;
+  left: 280px;
+  color: #4682B4;
+}
+#button:hover{
+  background-color: #4682B4;
+  color: white;
+}
+#complaint{
+  position: relative;
+  left: 310px;
+}
 #floating-panel {
   position: absolute;
   z-index: 5; 
@@ -26,13 +46,21 @@ body,
 #left{
   margin-left: 200px;
 }
-#agencies{
-  background-color: #F8F8FF;
-  min-height: 100px;
+#logo{
+  margin-left: 5%;
+  margin-top: 3%;
+  font-size: 320%;
+  margin-bottom:2%;
+  color:#4682B4
 }
-#complaint{
-  position: relative;
-  left: 310px;
+#logo:hover{
+  color:#4682B4;
+  text-decoration: underline;
+}
+#map {
+  margin: 4px;
+  min-height:450px;
+  padding: 0;
 }
 #pac-input {
   background-color: #fff;
@@ -44,50 +72,33 @@ body,
   text-overflow: ellipsis;
   width: 300px;
 }
-#button{
-  position: relative;
-  left: 280px;
-  color: #4682B4;
-}
-#button:hover{
-  background-color: #4682B4;
-  color: white;
-}
-
 #pac-input:focus {
   border-color: #4d90fe;
 }
-a:hover{
-  color: black;
-}
+
 .agent{
   border-right-style: solid;
   border-right-color: #4682B4;
   border-right-width: 1px;
 }
 
-.logo{
+.blue{
+  color: #4682B4;
+}
+
+.blue_background{
+  background-color:#4682B4;
+  min-height:30em;
+}
+
+.content{
   margin: 0px;
   padding: 0px;
 }
-.dropdown{
-  display: inline-block;
-  width: 200px;
+
+.display{
+  display: block !important;
 }
-
-.set_height{
-  margin-top: 100px;
-  min-height: 300px;
-}
-
-
-
-.pac-container {
-  font-family: 'Roboto';
-}
-
-/*Drop down menu CSS*/
-
 
 /* Dropdown Button */
 .dropbtn {
@@ -110,30 +121,19 @@ a:hover{
 /* Dropdown Content (Hidden by Default) */
 .dropdown-content {
     display: none;
-    position: absolute;
+    position: relative;
     background-color: #f9f9f9;
-    min-width: 100%;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
 }
-.header{
-  border-bottom-style: solid;
-  border-bottom-color: #4682B4;
-  border-bottom-width: 2px;
-  background-color: #F8F8FF;
-}
-.blue{
-  color: #4682B4;
-}
-.content{
-  margin: 0px;
-  padding: 0px;
-}
+
 
 /* Links inside the dropdown */
 .dropdown-content a {
     color: black;
-    padding: 12px 16px;
+    padding-top:5%;
+    padding-left: 8%;
+    width: 100%;
     text-decoration: none;
     display: block;
 }
@@ -150,5 +150,87 @@ a:hover{
 .dropdown:hover .dropbtn {
     background-color: #3e8e41;
 }
+
+.header{
+  border-bottom-style: solid;
+  border-bottom-color: #4682B4;
+  border-bottom-width: 2px;
+  background-color: #F8F8FF;
+}
+
+.logo{
+  margin-top: 7%;
+  padding-top: 1em;
+  font-size: 4em;
+  font-weight: bold;
+}
+.pic{
+  height:65em;
+}
+.pic:before {
+  content: '';
+    position:absolute;
+    top:0;
+    left:0;
+    margin:0px;
+
+  background-image: url(http://carriegallagher.com/wp-content/uploads/2014/05/sumall_lower_manhattan_wtc_one_nyc_new_york.png);
+  background-attachment: fixed;
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 150%;
+  width: 100%;
+  opacity:.5;
+  z-index: -5;
+}
+.sub_logo{
+  margin-top: 4em;
+  border-style: solid;
+  border-width: 10px;
+  border-color: #4682B4;
+  font-weight: bolder;
+  font-size: 3em;
+  color: black;
+  border-left:4em;
+  border-right:4em;
+  letter-spacing: 2px;
+}
+
+.nav{
+  padding-top: 2%;
+  padding-right:1%;
+}
+.nav_link{
+  font-size: 28px;
+}
+.navbar-toggle{
+  margin-top: 4%;
+}
+.navbar-toggle:hover{
+  display: block;
+}
+
+.pac-container {
+  font-family: 'Roboto';
+}
+
+.set_height{
+  margin-top: 100px;
+  min-height: 300px;
+}
+.sub_header{
+  margin-top:5%;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+}
+.white{
+  color: white;
+}
+.white_background{
+  min-height: 65em;
+}
+
+
 
 

@@ -2,25 +2,29 @@
 <html>
 <head>
 	<title>Data Viz</title>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-	<link rel = "stylesheet" href = "../static/css/styles.css">
+	<link rel = "stylesheet" href = "../static/css/map.css">
 
-
-  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 </head>
 
 <body>
 <div class = "container-fluid parallax">
-	 <nav class = "navbar opacity navbar-default navbar-toggleable-md navbar-fixed-top" id = "Home">
-    <div class = "container-fluid">
-      <div class = "navbar-header">
-        <a href = "/index">
-          <h1 id = "logo"> Data Viz</h1>
-        </a>
-      </div>
+	 <nav class = "navbar opacity navbar-default navbar-toggleable-md navbar-fixed-top" id ="Home">
+    <div class = "navagation">
+      <a class="blue navbar-brand" id = "logo" href="#Home">Data Viz</a>
 
+      <button onclick = "Toggle();" type = "button" class = "navbar-toggle" data-toggle="collapse" data-target="#myNavBar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span> 
+        <span class="icon-bar"></span> 
+        <span class="icon-bar"></span>
+      </button>
+      
       <div class = "collapse navbar-collapse" id = "myNavBar">
         <ul class ="nav navbar-nav navbar-right" >
           <li><a class = "nav" href = '/map'> <h4 class = "nav_link">Our Data</h4></a></li>
@@ -28,26 +32,66 @@
           <li><a class = "nav" href = '#About'> <h4 class = "nav_link"> More Info </h4> </a></li>
         </ul>
       </div>
+
+        <!--Gotta fix the Toggle ... -->
+      <div id = "dropTop" class="dropdown-content">
+        <a id = "all" onclick = "Toggle();" href= "/map">Our Data</a>
+        <a id = "NYPD" onclick = "Toggle();" href= "#About">About Us</a>
+        <a id = "FDNY" onclick = "Toggle();"  href= "#Share">Talk About Us</a>
+      </div>
     </div>
   </nav>
 
-
-	<h1 class = "main" id = "main_header">View New York</h1>
-	<h1 class = "main" id = "under_header">At A <span class = "blue_font white_shadow"> Different </span> Angle</h1>
-
-	<center id = "get_started"> <a class = "white" href = "/map">Get Started </a> </center>
-</div>
-<div class = "container-fluid blue page" id = "Info">
-	<h1 class = "white header" > What is Data Visualization</h1>
-	<br> <br>
-
-	<center > <iframe width="560" height="315" src="https://www.youtube.com/embed/xekEXM0Vonc" frameborder="0" allowfullscreen></iframe></center>
 </div>
 
-<div class = "container-fluid white page">
-	<h1 class = "blue_font header">What We Do</h1>
+<div class = "container-fluid pic">
+  <center>
+    <div class = ""> 
+    <h1 class = "logo ">Visualize The Latest 
+      <span>3</span> 
+      <span> 1 </span>
+      <span>1 </span> Data </h1>
+
+       <a href= '/map'> <h1 class = "sub_logo">  Get Started </h1> </a>
+    </div>
+  </center>
 </div>
 
+<div class = "container-fluid blue_background">
+  <center> <div>
+    <h1 class = "white sub_header">The Latest Data</h1>
+      <h3 class = "white"> We take the latest nyc data uploaded to socarati api and uploaded to a map so you can easily see whats going on
+      </h3>
+  </div> </center>
+</div>
+
+<div class = "container-fluid white_background" id = "About">
+    <center> <div>
+    <h1 class = "sub_header"> InterActive Website</h1>
+    <h3>Our Website is interactive and you can choose from different Different Departments from the 311 data as well as typing in any complaint type you want 
+    </h3>
+    </div> </center>
+  </div>
+</div>
+
+<div class = "container-fluid blue_background">
+    <div>
+    <center> <h1 class = "white sub_header">Find What You Want Fast</h1> <center>
+    <div>
+      <h3 class = "white">This thing is fast. What more can we say</h3>
+    </div>
+    </div>
+</div>
+
+  <!--Footer should probably use that tag.. and make the color black-->
+  <div id = "Share"> 
+    <h1>Tell A Friend.. Please</h1>
+
+  </div>
+
+
+
+</div>
 </body>
-<script src = "../static/js/home.js"> </script>
+<script src = "../static/js/map.js"> </script>
 </html>
