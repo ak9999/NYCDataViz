@@ -78,6 +78,8 @@ def request_data():
         'agency_name': True,
         'complaint_type': True,
         'descriptor': True,
+        'latitude': True,
+        'longitude': True
     }
 
     # Define date range

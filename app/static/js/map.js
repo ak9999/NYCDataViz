@@ -6,7 +6,7 @@
 
 var map;
 var heatmap;
-var queryString = '/query';
+var queryString = '/q';
 
 function ready(fn){
     if(document.attachEvent ? document.readyState === "complete" : document.readyState != "loading"){
@@ -170,7 +170,7 @@ function initMap() {
     // end of Auto Complete
 
     var request = new XMLHttpRequest();
-    request.open('GET', '/query', true);
+    request.open('GET', '/q', true);
 
     request.onload = function() {
         if (request.status >= 200 && request.status < 400) {
@@ -238,8 +238,8 @@ function changeGradient() {
 function NYPDFunction(){
     heatmap.setMap(null);
     var request = new XMLHttpRequest();
-    queryString = '/query?&agency=NYPD';
-    request.open('GET', '/query?&agency=NYPD', true);
+    queryString = '/q?&agency=NYPD';
+    request.open('GET', '/q?&agency=NYPD', true);
 
     request.onload = function() {
         if (request.status >= 200 && request.status < 400) {
@@ -268,8 +268,8 @@ function NYPDFunction(){
 function FDNYFunction(){
     heatmap.setMap(null);
     var request = new XMLHttpRequest();
-    queryString = '/query?&agency=FDNY';
-    request.open('GET', '/query?&agency=FDNY', true);
+    queryString = '/q?&agency=FDNY';
+    request.open('GET', '/q?&agency=FDNY', true);
 
     request.onload = function() {
         if (request.status >= 200 && request.status < 400) {
@@ -297,8 +297,8 @@ function FDNYFunction(){
 function DOHMHFunction(){
     heatmap.setMap(null);
     var request = new XMLHttpRequest();
-    queryString = '/query?&agency=DOHMH';
-    request.open('GET', '/query?&agency=DOHMH', true);
+    queryString = '/q?&agency=DOHMH';
+    request.open('GET', '/q?&agency=DOHMH', true);
 
     request.onload = function() {
         if (request.status >= 200 && request.status < 400) {
@@ -327,8 +327,8 @@ function DOHMHFunction(){
 function DEPFunction(){
     heatmap.setMap(null);
     var request = new XMLHttpRequest();
-    queryString = '/query?&agency=DEP';
-    request.open('GET', '/query?&agency=DEP', true);
+    queryString = '/q?&agency=DEP';
+    request.open('GET', '/q?&agency=DEP', true);
 
     request.onload = function() {
         if (request.status >= 200 && request.status < 400) {
@@ -357,8 +357,8 @@ function DEPFunction(){
 function allData(){
     heatmap.setMap(null);
     var request = new XMLHttpRequest();
-    queryString = '/query';
-    request.open('GET', '/query', true);
+    queryString = '/q';
+    request.open('GET', '/q', true);
 
     request.onload = function() {
         if (request.status >= 200 && request.status < 400) {
@@ -385,17 +385,17 @@ function allData(){
 }
 
 function complaintType(){
-  ///query?&agency=NYPD&type=noise
+  ///q?&agency=NYPD&type=noise
     heatmap.setMap(null);
     var request = new XMLHttpRequest();
     var query = '';
-    if(queryString === '/query'){
+    if(queryString === '/q'){
       query = queryString + '?&type=' + document.getElementById('complaint').value;
     }else{
       query = queryString + '&type=' + document.getElementById('complaint').value;
     }
     console.log(query);
-    
+
     request.open('GET', query, true);
 
     request.onload = function() {
@@ -420,33 +420,9 @@ function complaintType(){
     };
 
     request.send();
-
 }
 
-function myFunction (){
-  document.getElementById("dropDown").classList.toggle("show");
+function Toggle (){
+  var dropDown = document.getElementById('dropTop');
+      dropDown.classList.toggle('display');
 }
-
-
-/* When the user clicks on the button, 
-toggle between hiding and showing the dropdown content */
-function myFunction() {
-    document.getElementById("myDropdown").classList.toggle("show");
-}
-
-/*DO I NEED THIS ???? */
-// Close the dropdown menu if the user clicks outside of it
-window.onclick = function(event) {
-  if (!event.target.matches('.dropbtn')) {
-
-    var dropdowns = document.getElementsByClassName("dropdown-content");
-    var i;
-    for (i = 0; i < dropdowns.length; i++) {
-      var openDropdown = dropdowns[i];
-      if (openDropdown.classList.contains('show')) {
-        openDropdown.classList.remove('show');
-      }
-    }
-  }
-}
-
