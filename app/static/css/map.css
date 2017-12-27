@@ -43,6 +43,11 @@ a:hover{
   min-width: 35%;
 
 }
+#input{
+  margin-bottom: 1%;
+  width: 100%;
+  font-size:200%;
+}
 #left{
   margin-left: 200px;
 }
@@ -59,7 +64,7 @@ a:hover{
 }
 #map {
   margin: 4px;
-  min-height:600px;
+  min-height:800px;
   padding: 0;
 }
 #pac-input {
@@ -187,8 +192,8 @@ a:hover{
   margin-top:10%;
   padding-top: 1em;
   font-weight: bold;
-  font-size: 3em;
-  margin-bottom: 19%;
+  font-size: 220%;
+  margin-bottom: 13%;
 }
 .nav{
   padding-top: 2%;
