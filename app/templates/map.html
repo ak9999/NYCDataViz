@@ -9,52 +9,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Data Viz</title>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-    <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/map.css') }}">
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-    <script type="text/javascript" src="{{ url_for('static', filename='js/map.js') }}"></script>
+  <link rel = "stylesheet" href = "../static/css/map.css">
+
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">>
+
   </head>
   <body>
 
-      <div class = "container-fluid header" id = "nav">
-      <nav class = "navbar navbar-default navbar-toggleable-md navbar-fixed-top" id = "Home  navbar-fulllength">
-      <div class = "container-fluid">
-      <div class = "navbar-header">
-          <a href = "/index">
-            <h1 class = "logo blue"> Data Viz</h1>
-          </a>
-        </div>
+  <div class = "container-fluid parallax">
+     <nav class = "navbar opacity navbar-default navbar-toggleable-md navbar-fixed-top" id ="Home">
+      <div class = "navagation">
+        <a class="blue navbar-brand" id = "logo" href="#Home">Data Viz</a>
 
+        <button onclick = "Toggle();" type = "button" class = "navbar-toggle" data-toggle="collapse" data-target="#myNavBar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span> 
+          <span class="icon-bar"></span> 
+          <span class="icon-bar"></span>
+        </button>
+        
         <div class = "collapse navbar-collapse" id = "myNavBar">
-          <ul class ="nav navbar-nav navbar-right">
-              <li><a class = "nav" href = "/map"> <h4 class = "nav_link"> Our Data </h4></a></li>
-                <li><a class = "nav" href = "#Info"> <h4 class = "nav_link"> Data Visualization </h4> </a></li>
-                <li> <a class = "nav" href = "#About"> <h4 class = "nav_link"> About Us </h4> </a></li>
-            </ul>
+          <ul class ="nav navbar-nav navbar-right" >
+            <li><a class = "nav" href = '/map'> <h4 class = "nav_link">Our Data</h4></a></li>
+            <li><a class = "nav" href = '#About'> <h4 class = "nav_link"> About Us </h4> </a></li>
+            <li><a class = "nav" href = '#About'> <h4 class = "nav_link"> More Info </h4> </a></li>
+          </ul>
         </div>
 
-
+          <!--Gotta fix the Toggle ... -->
+        <div id = "dropTop" class="dropdown-content">
+          <a id = "all" onclick = "Toggle();" href= "/map">Our Data</a>
+          <a id = "NYPD" onclick = "Toggle();" href= "#About">About Us</a>
+          <a id = "FDNY" onclick = "Toggle();"  href= "#Share">Talk About Us</a>
+        </div>
       </div>
-      </nav>
-      </div>
+    </nav>
 
-      <br> <br>
+  </div>
+
+      <div class = "map_header">
       <center> <h1 class = "blue"> NYC 311 Data</h1> </center>
-      <center > <h3 > Data take from the last three weeks of 311 data logs </h3> </center>
       <br>
+      <center><h2 id = "sub_logo" > The Latest Data For use </h2></center>
+      </div>
 
-      <div class = "container-fluid" id = "agencies">
-         <h2>
-          <span class = "col-6"> Filter By Department </span>
-          <span id = "left"> Filter By Complaint </span>
-         </h2>
+      <div class = container> 
+        <div class = "sub_header"> <center> 
+          <h2>Filter By Departments</h2></center>
 
-         <!--Drop Down Menu-->
-
-        <div class="dropdown">
-            <button class="dropbtn">All Departments</button>
+          <div class = "dropdown">
+            <center><button class="dropbtn"><h3>All Departments</h3></button></center>
             <div class="dropdown-content">
               <a id = "all" onclick = "allData()" href= "#">All Departments</a>
               <a id = "NYPD" onclick = "NYPDFunction()" href= "#">Police Department</a>
@@ -62,11 +68,17 @@
               <a id = "DOHMH" onclick = "DOHMHFunction()" href= "#">Department of Health and Mental Hygiene</a>
               <a id = "DEP" onclick = "DEPFunction()" href= "#">Department of Environmental Protection</a>
             </div>
+          </div>
+
+
         </div>
 
-         <input class = "col-4" id = "complaint" type="text" name="search" placeholder="Search..">
-         <button id = "button" onclick = "complaintType()">Go</button>
+        <div class = "sub_header"> <center> <h2>Type In A Specific Complaint</h2></center> </div>
+
+        <div class = "sub_header"> <center> <h2>Go To A Destination</h2></center> </div>
+
       </div>
+
       <div id = "map">
 
       </div>
@@ -76,6 +88,7 @@
       </div>
 
   </body>
+  <script src = "../static/js/map.js"> </script>
   <script type="text/javascript"
   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9ElfPyeJ6ads4hslJ5eDQMrJaHx1tAp0&libraries=visualization,places"></script>
 
