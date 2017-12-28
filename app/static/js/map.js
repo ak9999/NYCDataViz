@@ -231,8 +231,6 @@ function changeGradient() {
     heatmap.set('gradient', gradient);
 }
 
-
-
 function allData(x){
     heatmap.setMap(null);
     var request = new XMLHttpRequest();
@@ -247,6 +245,8 @@ function allData(x){
     }else{
       queryString = '/query?&agency=DEP';
     }
+
+
     request.open('GET', queryString, true);
 
     request.onload = function() {
@@ -310,7 +310,11 @@ function complaintType(){
 
     request.send();
 }
-
+document.getElementById('complaint').onkeydown = function(event) {
+    if (event.keyCode == 13) {
+        complaintType();
+    }
+}
 function Toggle (){
   var dropDown = document.getElementById('dropTop');
       dropDown.classList.toggle('display');

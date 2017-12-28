@@ -61,8 +61,9 @@
           <h2>Filter By Departments</h2></center>
 
           <div class = "dropdown" id = "data">
+            <!--Make the Button Change text every time something is clicked-->
             <center><button class="dropbtn"><h3>All Departments</h3></button></center>
-            <!-- GOTTA FIX multiple function by using THIS -->
+
             <div  class="dropdown-content">
               <a id = "all" onclick = "allData('')" href= "#top">All Departments</a>
               <a id = "NYPD" onclick = "allData('NYPD')" href= "#top">Police Department</a>
@@ -74,12 +75,12 @@
 
 
         </div>
-        <!--MAKE THIS WORK WHEN PRESSING ENTER-->
+        <!--MAKE THIS LESS REDUNDANT-->
         <div class = "sub_header"> <center>
          <h2>Type In A Specific Complaint</h2></center>
          <div> 
             <form> 
-              <input id = "input" type= "text" placeholder="Loud Noises, Rats Etc..">
+              <input id = "complaint" onclick = "complaintType" type= "text" placeholder="Loud Noises, Rats Etc..">
             </form>
          </div>
 
@@ -89,7 +90,7 @@
           <h2>Go To A Destination</h2></center> 
           <div> 
             <form> 
-              <input id = "input" type= "text" placeholder="Queens What Up">
+              <input id = "pac-input" type= "text" placeholder="Queens What Up">
             </form>
          </div>
 
@@ -99,7 +100,11 @@
 
       <!-- Fix The Map -->
       <div id = "map">
-
+        <div id="infowindow-content">
+          <img src="" width="16" height="16" id="place-icon">
+          <span id="place-name"  class="title"></span><br>
+          <span id="place-address"></span>
+        </div>
       </div>
 
       <div class = "container-fluid set_height" id = "">
