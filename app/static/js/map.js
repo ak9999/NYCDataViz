@@ -236,6 +236,7 @@ function changeGradient() {
 
 
 function NYPDFunction(){
+  console.log(this);
     heatmap.setMap(null);
     var request = new XMLHttpRequest();
     queryString = '/q?&agency=NYPD';

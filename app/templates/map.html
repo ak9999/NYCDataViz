@@ -21,7 +21,7 @@
   <div class = "container-fluid parallax">
      <nav class = "navbar opacity navbar-default navbar-toggleable-md navbar-fixed-top" id ="Home">
       <div class = "navagation">
-        <a class="blue navbar-brand" id = "logo" href="#Home">Data Viz</a>
+        <a class="blue navbar-brand" id = "logo" href="/index">Data Viz</a>
 
         <button onclick = "Toggle();" type = "button" class = "navbar-toggle" data-toggle="collapse" data-target="#myNavBar">
           <span class="icon-bar"></span>
@@ -32,17 +32,17 @@
         
         <div class = "collapse navbar-collapse" id = "myNavBar">
           <ul class ="nav navbar-nav navbar-right" >
-            <li><a class = "nav" href = '/map'> <h4 class = "nav_link">Our Data</h4></a></li>
-            <li><a class = "nav" href = '#About'> <h4 class = "nav_link"> About Us </h4> </a></li>
-            <li><a class = "nav" href = '#About'> <h4 class = "nav_link"> More Info </h4> </a></li>
+            <li><a class = "nav" href = '/data'> <h4 class = "nav_link">Our Data</h4></a></li>
+            <li><a class = "nav" href = '#map'> <h4 class = "nav_link"> Map </h4> </a></li>
+            <li><a class = "nav" href = '#graph'> <h4 class = "nav_link"> Graph </h4> </a></li>
           </ul>
         </div>
 
-          <!--Gotta fix the Toggle ... -->
-        <div id = "dropTop" class="dropdown-content">
-          <a id = "all" onclick = "Toggle();" href= "/map">Our Data</a>
-          <a id = "NYPD" onclick = "Toggle();" href= "#About">About Us</a>
-          <a id = "FDNY" onclick = "Toggle();"  href= "#Share">Talk About Us</a>
+        <div id = "dropTop" onclick = "Toggle();" class="dropdown-content">
+          <a id = "all"  href= "#data">Our Data</a>
+          <a id = "NYPD"  href= "#map">Map</a>
+          <a id = "NYPD"  href= "#graph">Graph</a>
+
         </div>
       </div>
     </nav>
@@ -60,8 +60,9 @@
         <div class = "sub_header"> <center> 
           <h2>Filter By Departments</h2></center>
 
-          <div class = "dropdown">
+          <div class = "dropdown" id = "data">
             <center><button class="dropbtn"><h3>All Departments</h3></button></center>
+            <!-- GOTTA FIX multiple function by using THIS -->
             <div class="dropdown-content">
               <a id = "all" onclick = "allData()" href= "#">All Departments</a>
               <a id = "NYPD" onclick = "NYPDFunction()" href= "#">Police Department</a>
@@ -100,7 +101,7 @@
 
       </div>
 
-      <div class = "container-fluid set_height" id = "agencies">
+      <div class = "container-fluid set_height" id = "">
 
       </div>
 
