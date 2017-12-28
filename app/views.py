@@ -23,6 +23,7 @@ try:
     collection = db.requests
     collection.create_index([('unique_key', pymongo.DESCENDING)], unique=True)
 except Exception as e:
+    print('COLLECTION DOESN"T WORK')
     print('Exception:', e)
 
 
