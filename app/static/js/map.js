@@ -184,14 +184,8 @@ function initMap() {
             // Success!
             var data = JSON.parse(request.responseText);
             let result = [];
-            let markerArray = [];
             for (var i = 0; i < data.length; i++) {
                 result.push(new google.maps.LatLng(data[i].latitude, data[i].longitude));
-                var marker = new google.maps.Marker({
-                 position: new google.maps.LatLng(data[i].latitude, data[i].longitude),
-                 map: map
-                });
-                markersArray.push(marker);
             }
 
 
@@ -271,11 +265,13 @@ function allData(x){
             let result = [];
             for (var i = 0; i < data.length; i++) {
                 result.push(new google.maps.LatLng(data[i].latitude, data[i].longitude));
-                var marker = new google.maps.Marker({
-                 position: new google.maps.LatLng(data[i].latitude, data[i].longitude),
-                 map: map
-                });
-                markersArray.push(marker);
+                if(queryString !== '/query'){
+                  var marker = new google.maps.Marker({
+                   position: new google.maps.LatLng(data[i].latitude, data[i].longitude),
+                    map: map
+                  });
+                  markersArray.push(marker);
+                }
             }
          
             heatmap = new google.maps.visualization.HeatmapLayer({
