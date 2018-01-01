@@ -6,6 +6,7 @@
 
 var map;
 var heatmap;
+var markersArray = [];
 var queryString = '/query';
 
 function ready(fn){
@@ -16,6 +17,12 @@ function ready(fn){
     }
 }
 
+function clearOverlays() {
+  for (var i = 0; i < markersArray.length; i++ ) {
+    markersArray[i].setMap(null);
+  }
+  markersArray.length = 0;
+}
 
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
@@ -177,10 +184,17 @@ function initMap() {
             // Success!
             var data = JSON.parse(request.responseText);
             let result = [];
+            let markerArray = [];
             for (var i = 0; i < data.length; i++) {
                 result.push(new google.maps.LatLng(data[i].latitude, data[i].longitude));
+                var marker = new google.maps.Marker({
+                 position: new google.maps.LatLng(data[i].latitude, data[i].longitude),
+                 map: map
+                });
+                markersArray.push(marker);
             }
-            console.log(result);
+
+
             heatmap = new google.maps.visualization.HeatmapLayer({
                 data: result,
                 map: map
@@ -233,6 +247,7 @@ function changeGradient() {
 
 function allData(x){
     heatmap.setMap(null);
+    clearOverlays();
     var request = new XMLHttpRequest();
     if(x === ''){
       queryString = '/query';
@@ -256,8 +271,13 @@ function allData(x){
             let result = [];
             for (var i = 0; i < data.length; i++) {
                 result.push(new google.maps.LatLng(data[i].latitude, data[i].longitude));
+                var marker = new google.maps.Marker({
+                 position: new google.maps.LatLng(data[i].latitude, data[i].longitude),
+                 map: map
+                });
+                markersArray.push(marker);
             }
-            console.log(result);
+         
             heatmap = new google.maps.visualization.HeatmapLayer({
                 data: result,
                 map: map
@@ -276,6 +296,7 @@ function allData(x){
 function complaintType(){
   ///q?&agency=NYPD&type=noise
     heatmap.setMap(null);
+    clearOverlays();
     var request = new XMLHttpRequest();
     var query = '';
     if(queryString === '/query'){
@@ -283,7 +304,6 @@ function complaintType(){
     }else{
       query = queryString + '&type=' + document.getElementById('complaint').value;
     }
-    console.log(query);
 
     request.open('GET', query, true);
 
@@ -294,8 +314,13 @@ function complaintType(){
             let result = [];
             for (var i = 0; i < data.length; i++) {
                 result.push(new google.maps.LatLng(data[i].latitude, data[i].longitude));
+                var marker = new google.maps.Marker({
+                 position: new google.maps.LatLng(data[i].latitude, data[i].longitude),
+                 map: map
+                });
+                markersArray.push(marker);
             }
-            console.log(result);
+           
             heatmap = new google.maps.visualization.HeatmapLayer({
                 data: result,
                 map: map
