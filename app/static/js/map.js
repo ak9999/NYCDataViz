@@ -7,7 +7,7 @@
 var map;
 var heatmap;
 var markersArray = [];
-var queryString = '/query';
+var queryString = '/q';
 
 function ready(fn){
     if(document.attachEvent ? document.readyState === "complete" : document.readyState != "loading"){
@@ -177,7 +177,7 @@ function initMap() {
     // end of Auto Complete
 
     var request = new XMLHttpRequest();
-    request.open('GET', '/query', true);
+    request.open('GET', '/q', true);
 
     request.onload = function() {
         if (request.status >= 200 && request.status < 400) {
@@ -244,15 +244,15 @@ function allData(x){
     clearOverlays();
     var request = new XMLHttpRequest();
     if(x === ''){
-      queryString = '/query';
+      queryString = '/q';
     }else if (x === 'NYPD'){
-      queryString = '/query?&agency=NYPD';
+      queryString = '/q?&agency=NYPD';
     }else if (x === 'FDNY'){
-      queryString = '/query?&agency=FDNY';
+      queryString = '/q?&agency=FDNY';
     }else if(x === 'DOHMH'){
-      queryString = '/query?&agency=DOHMH';
+      queryString = '/q?&agency=DOHMH';
     }else{
-      queryString = '/query?&agency=DEP';
+      queryString = '/q?&agency=DEP';
     }
 
 
@@ -265,7 +265,7 @@ function allData(x){
             let result = [];
             for (var i = 0; i < data.length; i++) {
                 result.push(new google.maps.LatLng(data[i].latitude, data[i].longitude));
-                if(queryString !== '/query'){
+                if(queryString !== '/q'){
                   var marker = new google.maps.Marker({
                    position: new google.maps.LatLng(data[i].latitude, data[i].longitude),
                     map: map
@@ -273,7 +273,7 @@ function allData(x){
                   markersArray.push(marker);
                 }
             }
-         
+
             heatmap = new google.maps.visualization.HeatmapLayer({
                 data: result,
                 map: map
@@ -295,7 +295,7 @@ function complaintType(){
     clearOverlays();
     var request = new XMLHttpRequest();
     var query = '';
-    if(queryString === '/query'){
+    if(queryString === '/q'){
       query = queryString + '?&type=' + document.getElementById('complaint').value;
     }else{
       query = queryString + '&type=' + document.getElementById('complaint').value;
@@ -316,7 +316,7 @@ function complaintType(){
                 });
                 markersArray.push(marker);
             }
-           
+
             heatmap = new google.maps.visualization.HeatmapLayer({
                 data: result,
                 map: map
