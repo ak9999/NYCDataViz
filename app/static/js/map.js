@@ -6,6 +6,7 @@
 
 var map;
 var heatmap;
+var markersArray = [];
 var queryString = '/q';
 
 function ready(fn){
@@ -16,6 +17,12 @@ function ready(fn){
     }
 }
 
+function clearOverlays() {
+  for (var i = 0; i < markersArray.length; i++ ) {
+    markersArray[i].setMap(null);
+  }
+  markersArray.length = 0;
+}
 
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
@@ -180,7 +187,8 @@ function initMap() {
             for (var i = 0; i < data.length; i++) {
                 result.push(new google.maps.LatLng(data[i].latitude, data[i].longitude));
             }
-            console.log(result);
+
+
             heatmap = new google.maps.visualization.HeatmapLayer({
                 data: result,
                 map: map
@@ -231,15 +239,24 @@ function changeGradient() {
     heatmap.set('gradient', gradient);
 }
 
-
-/*Function For query */
-
-
-function NYPDFunction(){
+function allData(x){
     heatmap.setMap(null);
+    clearOverlays();
     var request = new XMLHttpRequest();
-    queryString = '/q?&agency=NYPD';
-    request.open('GET', '/q?&agency=NYPD', true);
+    if(x === ''){
+      queryString = '/q';
+    }else if (x === 'NYPD'){
+      queryString = '/q?&agency=NYPD';
+    }else if (x === 'FDNY'){
+      queryString = '/q?&agency=FDNY';
+    }else if(x === 'DOHMH'){
+      queryString = '/q?&agency=DOHMH';
+    }else{
+      queryString = '/q?&agency=DEP';
+    }
+
+
+    request.open('GET', queryString, true);
 
     request.onload = function() {
         if (request.status >= 200 && request.status < 400) {
@@ -248,127 +265,15 @@ function NYPDFunction(){
             let result = [];
             for (var i = 0; i < data.length; i++) {
                 result.push(new google.maps.LatLng(data[i].latitude, data[i].longitude));
+                if(queryString !== '/q'){
+                  var marker = new google.maps.Marker({
+                   position: new google.maps.LatLng(data[i].latitude, data[i].longitude),
+                    map: map
+                  });
+                  markersArray.push(marker);
+                }
             }
-            console.log(result);
-            heatmap = new google.maps.visualization.HeatmapLayer({
-                data: result,
-                map: map
-            });
-            changeGradient();
-        }
-    };
-    request.onerror = function() {
-        // There was a connection error of some sort
 
-    };
-
-    request.send();
-}
-
-function FDNYFunction(){
-    heatmap.setMap(null);
-    var request = new XMLHttpRequest();
-    queryString = '/q?&agency=FDNY';
-    request.open('GET', '/q?&agency=FDNY', true);
-
-    request.onload = function() {
-        if (request.status >= 200 && request.status < 400) {
-            // Success!
-            var data = JSON.parse(request.responseText);
-            let result = [];
-            for (var i = 0; i < data.length; i++) {
-                result.push(new google.maps.LatLng(data[i].latitude, data[i].longitude));
-            }
-            console.log(result);
-            heatmap = new google.maps.visualization.HeatmapLayer({
-                data: result,
-                map: map
-            });
-            changeGradient();
-        }
-    };
-    request.onerror = function() {
-        // There was a connection error of some sort
-
-    };
-    request.send();
-}
-
-function DOHMHFunction(){
-    heatmap.setMap(null);
-    var request = new XMLHttpRequest();
-    queryString = '/q?&agency=DOHMH';
-    request.open('GET', '/q?&agency=DOHMH', true);
-
-    request.onload = function() {
-        if (request.status >= 200 && request.status < 400) {
-            // Success!
-            var data = JSON.parse(request.responseText);
-            let result = [];
-            for (var i = 0; i < data.length; i++) {
-                result.push(new google.maps.LatLng(data[i].latitude, data[i].longitude));
-            }
-            console.log(result);
-            heatmap = new google.maps.visualization.HeatmapLayer({
-                data: result,
-                map: map
-            });
-            changeGradient();
-        }
-    };
-    request.onerror = function() {
-        // There was a connection error of some sort
-
-    };
-
-    request.send();
-}
-
-function DEPFunction(){
-    heatmap.setMap(null);
-    var request = new XMLHttpRequest();
-    queryString = '/q?&agency=DEP';
-    request.open('GET', '/q?&agency=DEP', true);
-
-    request.onload = function() {
-        if (request.status >= 200 && request.status < 400) {
-            // Success!
-            var data = JSON.parse(request.responseText);
-            let result = [];
-            for (var i = 0; i < data.length; i++) {
-                result.push(new google.maps.LatLng(data[i].latitude, data[i].longitude));
-            }
-            console.log(result);
-            heatmap = new google.maps.visualization.HeatmapLayer({
-                data: result,
-                map: map
-            });
-            changeGradient();
-        }
-    };
-    request.onerror = function() {
-        // There was a connection error of some sort
-
-    };
-
-    request.send();
-}
-
-function allData(){
-    heatmap.setMap(null);
-    var request = new XMLHttpRequest();
-    queryString = '/q';
-    request.open('GET', '/q', true);
-
-    request.onload = function() {
-        if (request.status >= 200 && request.status < 400) {
-            // Success!
-            var data = JSON.parse(request.responseText);
-            let result = [];
-            for (var i = 0; i < data.length; i++) {
-                result.push(new google.maps.LatLng(data[i].latitude, data[i].longitude));
-            }
-            console.log(result);
             heatmap = new google.maps.visualization.HeatmapLayer({
                 data: result,
                 map: map
@@ -387,6 +292,7 @@ function allData(){
 function complaintType(){
   ///q?&agency=NYPD&type=noise
     heatmap.setMap(null);
+    clearOverlays();
     var request = new XMLHttpRequest();
     var query = '';
     if(queryString === '/q'){
@@ -394,7 +300,6 @@ function complaintType(){
     }else{
       query = queryString + '&type=' + document.getElementById('complaint').value;
     }
-    console.log(query);
 
     request.open('GET', query, true);
 
@@ -405,8 +310,13 @@ function complaintType(){
             let result = [];
             for (var i = 0; i < data.length; i++) {
                 result.push(new google.maps.LatLng(data[i].latitude, data[i].longitude));
+                var marker = new google.maps.Marker({
+                 position: new google.maps.LatLng(data[i].latitude, data[i].longitude),
+                 map: map
+                });
+                markersArray.push(marker);
             }
-            console.log(result);
+
             heatmap = new google.maps.visualization.HeatmapLayer({
                 data: result,
                 map: map
@@ -421,7 +331,11 @@ function complaintType(){
 
     request.send();
 }
-
+document.getElementById('complaint').onkeydown = function(event) {
+    if (event.keyCode == 13) {
+        complaintType();
+    }
+}
 function Toggle (){
   var dropDown = document.getElementById('dropTop');
       dropDown.classList.toggle('display');

@@ -31,11 +31,13 @@ except Exception as e:
 def print_collection():
     try:
         global collection
+        recent_dates = collection.create_index([('created_date', pymongo.DESCENDING)], name='recent_dates')
         projection = {'_id': False, 'unique_key': True, 'created_date': True, 'descriptor': True}
-        cursor = collection.find({}, projection).sort('created_date', pymongo.DESCENDING)
+        cursor = collection.find({}, projection, hint=recent_dates).sort('created_date', pymongo.DESCENDING)
 
         return render_template('cursor.html', count=collection.count(), cursor=cursor)
-    except:
+    except Exception as e:
+        print(e)  # Probably out of memory for in-memory sort.
         return Response(response="404", status=404, mimetype='text/html')
 
 
@@ -74,6 +76,7 @@ def request_data():
         '_id': False,
         'unique_key': True,
         'created_date': True,
+        'closed_date': True,
         'agency': True,
         'agency_name': True,
         'complaint_type': True,
@@ -115,7 +118,7 @@ def request_data():
 def retrieve():
     # These are the desired columns:
     # ['Unique Key', 'Latitude', 'Longitude', 'Created Date', 'Agency', 'Agency Name', 'Complaint Type', 'Descriptor']
-    columns = "unique_key,latitude,longitude,created_date,agency,agency_name,complaint_type,descriptor"
+    columns = "unique_key,latitude,longitude,created_date,closed_date,agency,agency_name,complaint_type,descriptor"
 
     # Get recent service requests from database
     eastern_tz = pytz.timezone('US/Eastern')  # Generate time zone from string.
