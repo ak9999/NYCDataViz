@@ -16,9 +16,9 @@ import os
 
 # Create connection to MongoDB cluster, and yes these are global.
 try:
-    key = os.environ['mongopass']
+    MONGO_SECRET = os.environ['MONGO_SERVER_URI']
     # Break up this URI into strings for storing as a environment variable later
-    client = pymongo.MongoClient('mongodb://mongo:{}@citysnap-shard-00-00-dax53.mongodb.net:27017,citysnap-shard-00-01-dax53.mongodb.net:27017,citysnap-shard-00-02-dax53.mongodb.net:27017/test?ssl=true&replicaSet=citysnap-shard-0&authSource=admin'.format(key))
+    client = pymongo.MongoClient(MONGO_SECRET)
     db = client.database
     collection = db.requests
     collection.create_index([('unique_key', pymongo.DESCENDING)], unique=True)
