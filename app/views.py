@@ -1,6 +1,6 @@
 from app import app
 
-from flask import render_template, Response, request
+from flask import render_template, Response, request, send_from_directory
 
 import pytz
 from datetime import *
@@ -52,6 +52,12 @@ def store_retrieved_data(service_requests):
         collection.insert_many(service_requests, ordered=False)
     except Exception as e:
         print("Exception:", e)
+
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'),
+                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 
 @app.route('/')
