@@ -263,6 +263,7 @@ function allData(x){
             // Success!
             var data = JSON.parse(request.responseText);
             let result = [];
+            var infowindow = new google.maps.InfoWindow();
             for (var i = 0; i < data.length; i++) {
                 result.push(new google.maps.LatLng(data[i].latitude, data[i].longitude));
                 if(queryString !== '/q'){
@@ -270,6 +271,8 @@ function allData(x){
                    position: new google.maps.LatLng(data[i].latitude, data[i].longitude),
                     map: map
                   });
+
+                  showDescriptor(map, infowindow, data[i].descriptor, marker);
                   markersArray.push(marker);
                 }
             }
@@ -308,12 +311,14 @@ function complaintType(){
             // Success!
             var data = JSON.parse(request.responseText);
             let result = [];
+            var infowindow = new google.maps.InfoWindow();
             for (var i = 0; i < data.length; i++) {
                 result.push(new google.maps.LatLng(data[i].latitude, data[i].longitude));
                 var marker = new google.maps.Marker({
                  position: new google.maps.LatLng(data[i].latitude, data[i].longitude),
                  map: map
                 });
+                showDescriptor(map, infowindow, data[i].complaint_type, marker);
                 markersArray.push(marker);
             }
 
@@ -339,4 +344,11 @@ document.getElementById('complaint').onkeydown = function(event) {
 function Toggle (){
   var dropDown = document.getElementById('dropTop');
       dropDown.classList.toggle('display');
+}
+
+function showDescriptor(map, infowindow, complaintType, marker) {
+  google.maps.event.addListener(marker, 'click', function() {
+    infowindow.setContent(complaintType);
+    infowindow.open(map, marker);
+  });
 }
