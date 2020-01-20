@@ -95,7 +95,7 @@ def request_data():
     eastern_tz = pytz.timezone('US/Eastern')  # Generate time zone from string.
     today = datetime.now()  # Generate datetime object right now.
     today = eastern_tz.localize(today)  # Convert today to new datetime
-    time_delta = today - relativedelta(days=3)
+    time_delta = today - relativedelta(days=7)
 
     query = { 'created_date': { '$gte': time_delta } }
     agency = request.args.get('agency')
@@ -131,7 +131,7 @@ def retrieve():
     today = datetime.utcnow()  # Generate datetime object right now.
     # today = today.astimezone(eastern_tz)  # Convert today to new datetime
     today = eastern_tz.localize(today)
-    time_delta = today - relativedelta(days=3)
+    time_delta = today - relativedelta(days=7)
 
     # Convert datetimes into Floating Timestamps for use with Socrata.
     today = today.strftime('%Y-%m-%d') + 'T00:00:00'
@@ -144,7 +144,7 @@ def retrieve():
     $select will select the columns we want, as defined earlier.
     $where allows us to choose the time frame. In this case it's 6 weeks.
     '''
-    api_url = "https://data.cityofnewyork.us/resource/fhrw-4uyv.json?"
+    api_url = "https://data.cityofnewyork.us/resource/erm2-nwe9.json?"
     filters = {
         '$limit': 50000,
         '$select': columns,
